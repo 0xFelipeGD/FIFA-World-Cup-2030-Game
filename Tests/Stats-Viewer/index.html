@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Cup 2030 - Confederation Statistics</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/a/aa/FIFA_logo_without_slogan.svg"
+          alt="FIFA Logo"
+          class="fifa-logo"
+        />
+        <h1>World Cup 2030 - Statistical Analysis</h1>
+        <p class="subtitle">Position Distribution by Confederation</p>
+      </header>
+
+      <nav class="confederation-nav">
+        <button class="nav-btn active" data-confederation="conmebol">
+          <span class="confederation-name">CONMEBOL</span>
+          <span class="teams-count">10 teams</span>
+        </button>
+        <button class="nav-btn" data-confederation="concacaf">
+          <span class="confederation-name">CONCACAF</span>
+          <span class="teams-count">20 teams</span>
+        </button>
+        <button class="nav-btn" data-confederation="caf">
+          <span class="confederation-name">CAF</span>
+          <span class="teams-count">39 teams</span>
+        </button>
+        <button class="nav-btn" data-confederation="afc">
+          <span class="confederation-name">AFC</span>
+          <span class="teams-count">39 teams</span>
+        </button>
+        <button class="nav-btn" data-confederation="uefa">
+          <span class="confederation-name">UEFA</span>
+          <span class="teams-count">53 teams</span>
+        </button>
+        <button class="nav-btn" data-confederation="ofc">
+          <span class="confederation-name">OFC</span>
+          <span class="teams-count">11 teams</span>
+        </button>
+      </nav>
+
+      <div id="stats-container">
+        <div class="loading">Loading statistics...</div>
+      </div>
+
+      <footer>
+        <p>
+          Based on qualification simulations | Generated at:
+          <span id="generated-date">-</span>
+        </p>
+        <p>Total simulations: <span id="total-runs">-</span></p>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

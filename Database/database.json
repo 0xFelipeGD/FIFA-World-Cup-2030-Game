@@ -1,0 +1,1227 @@
+[
+  {
+    "name": "Albania",
+    "code": "AL",
+    "flag": "https://media.api-sports.io/flags/al.svg",
+    "confederation": "UEFA",
+    "strength": 45
+  },
+  {
+    "name": "Algeria",
+    "code": "DZ",
+    "flag": "https://media.api-sports.io/flags/dz.svg",
+    "confederation": "CAF",
+    "strength": 55
+  },
+  {
+    "name": "American-Samoa",
+    "code": "AS",
+    "flag": "https://media.api-sports.io/flags/as.svg",
+    "confederation": "OFC",
+    "strength": 18
+  },
+  {
+    "name": "Andorra",
+    "code": "AD",
+    "flag": "https://media.api-sports.io/flags/ad.svg",
+    "confederation": "UEFA",
+    "strength": 20
+  },
+  {
+    "name": "Angola",
+    "code": "AO",
+    "flag": "https://media.api-sports.io/flags/ao.svg",
+    "confederation": "CAF",
+    "strength": 40
+  },
+  {
+    "name": "Antigua-And-Barbuda",
+    "code": "AG",
+    "flag": "https://media.api-sports.io/flags/ag.svg",
+    "confederation": "CONCACAF",
+    "strength": 25
+  },
+  {
+    "name": "Argentina",
+    "code": "AR",
+    "flag": "https://media.api-sports.io/flags/ar.svg",
+    "confederation": "CONMEBOL",
+    "strength": 95
+  },
+  {
+    "name": "Armenia",
+    "code": "AM",
+    "flag": "https://media.api-sports.io/flags/am.svg",
+    "confederation": "UEFA",
+    "strength": 42
+  },
+  {
+    "name": "Aruba",
+    "code": "AW",
+    "flag": "https://media.api-sports.io/flags/aw.svg",
+    "confederation": "CONCACAF",
+    "strength": 15
+  },
+  {
+    "name": "Australia",
+    "code": "AU",
+    "flag": "https://media.api-sports.io/flags/au.svg",
+    "confederation": "AFC",
+    "strength": 68
+  },
+  {
+    "name": "Austria",
+    "code": "AT",
+    "flag": "https://media.api-sports.io/flags/at.svg",
+    "confederation": "UEFA",
+    "strength": 70
+  },
+  {
+    "name": "Azerbaijan",
+    "code": "AZ",
+    "flag": "https://media.api-sports.io/flags/az.svg",
+    "confederation": "UEFA",
+    "strength": 38
+  },
+  {
+    "name": "Bahrain",
+    "code": "BH",
+    "flag": "https://media.api-sports.io/flags/bh.svg",
+    "confederation": "AFC",
+    "strength": 50
+  },
+  {
+    "name": "Bangladesh",
+    "code": "BD",
+    "flag": "https://media.api-sports.io/flags/bd.svg",
+    "confederation": "AFC",
+    "strength": 30
+  },
+  {
+    "name": "Barbados",
+    "code": "BB",
+    "flag": "https://media.api-sports.io/flags/bb.svg",
+    "confederation": "CONCACAF",
+    "strength": 28
+  },
+  {
+    "name": "Belarus",
+    "code": "BY",
+    "flag": "https://media.api-sports.io/flags/by.svg",
+    "confederation": "UEFA",
+    "strength": 52
+  },
+  {
+    "name": "Belgium",
+    "code": "BE",
+    "flag": "https://media.api-sports.io/flags/be.svg",
+    "confederation": "UEFA",
+    "strength": 88
+  },
+  {
+    "name": "Belize",
+    "code": "BZ",
+    "flag": "https://media.api-sports.io/flags/bz.svg",
+    "confederation": "CONCACAF",
+    "strength": 22
+  },
+  {
+    "name": "Benin",
+    "code": "BJ",
+    "flag": "https://media.api-sports.io/flags/bj.svg",
+    "confederation": "CAF",
+    "strength": 45
+  },
+  {
+    "name": "Bermuda",
+    "code": "BM",
+    "flag": "https://media.api-sports.io/flags/bm.svg",
+    "confederation": "CONCACAF",
+    "strength": 24
+  },
+  {
+    "name": "Bhutan",
+    "code": "BT",
+    "flag": "https://media.api-sports.io/flags/bt.svg",
+    "confederation": "AFC",
+    "strength": 18
+  },
+  {
+    "name": "Bolivia",
+    "code": "BO",
+    "flag": "https://media.api-sports.io/flags/bo.svg",
+    "confederation": "CONMEBOL",
+    "strength": 48
+  },
+  {
+    "name": "Bosnia",
+    "code": "BA",
+    "flag": "https://media.api-sports.io/flags/ba.svg",
+    "confederation": "UEFA",
+    "strength": 58
+  },
+  {
+    "name": "Botswana",
+    "code": "BW",
+    "flag": "https://media.api-sports.io/flags/bw.svg",
+    "confederation": "CAF",
+    "strength": 35
+  },
+  {
+    "name": "Brazil",
+    "code": "BR",
+    "flag": "https://media.api-sports.io/flags/br.svg",
+    "confederation": "CONMEBOL",
+    "strength": 93
+  },
+  {
+    "name": "Bulgaria",
+    "code": "BG",
+    "flag": "https://media.api-sports.io/flags/bg.svg",
+    "confederation": "UEFA",
+    "strength": 50
+  },
+  {
+    "name": "Burkina-Faso",
+    "code": "BF",
+    "flag": "https://media.api-sports.io/flags/bf.svg",
+    "confederation": "CAF",
+    "strength": 48
+  },
+  {
+    "name": "Burundi",
+    "code": "BI",
+    "flag": "https://media.api-sports.io/flags/bi.svg",
+    "confederation": "CAF",
+    "strength": 32
+  },
+  {
+    "name": "Cambodia",
+    "code": "KH",
+    "flag": "https://media.api-sports.io/flags/kh.svg",
+    "confederation": "AFC",
+    "strength": 28
+  },
+  {
+    "name": "Cabo-Verde",
+    "code": "CV",
+    "flag": "https://media.api-sports.io/flags/cv.svg",
+    "confederation": "CAF",
+    "strength": 50
+  },
+  {
+    "name": "Cameroon",
+    "code": "CM",
+    "flag": "https://media.api-sports.io/flags/cm.svg",
+    "confederation": "CAF",
+    "strength": 65
+  },
+  {
+    "name": "Canada",
+    "code": "CA",
+    "flag": "https://media.api-sports.io/flags/ca.svg",
+    "confederation": "CONCACAF",
+    "strength": 70
+  },
+  {
+    "name": "Chile",
+    "code": "CL",
+    "flag": "https://media.api-sports.io/flags/cl.svg",
+    "confederation": "CONMEBOL",
+    "strength": 68
+  },
+  {
+    "name": "China",
+    "code": "CN",
+    "flag": "https://media.api-sports.io/flags/cn.svg",
+    "confederation": "AFC",
+    "strength": 58
+  },
+  {
+    "name": "Chinese-Taipei",
+    "code": "TW",
+    "flag": "https://media.api-sports.io/flags/tw.svg",
+    "confederation": "AFC",
+    "strength": 35
+  },
+  {
+    "name": "Cook-Islands",
+    "code": "CK",
+    "flag": "https://media.api-sports.io/flags/ck.svg",
+    "confederation": "OFC",
+    "strength": 24
+  },
+  {
+    "name": "Colombia",
+    "code": "CO",
+    "flag": "https://media.api-sports.io/flags/co.svg",
+    "confederation": "CONMEBOL",
+    "strength": 80
+  },
+  {
+    "name": "Congo",
+    "code": "CD",
+    "flag": "https://media.api-sports.io/flags/cd.svg",
+    "confederation": "CAF",
+    "strength": 42
+  },
+  {
+    "name": "Congo-DR",
+    "code": "CG",
+    "flag": "https://media.api-sports.io/flags/cg.svg",
+    "confederation": "CAF",
+    "strength": 52
+  },
+  {
+    "name": "Costa-Rica",
+    "code": "CR",
+    "flag": "https://media.api-sports.io/flags/cr.svg",
+    "confederation": "CONCACAF",
+    "strength": 62
+  },
+  {
+    "name": "Czech-Republic",
+    "code": "CZ",
+    "flag": "https://media.api-sports.io/flags/cz.svg",
+    "confederation": "UEFA",
+    "strength": 68
+  },
+  {
+    "name": "Denmark",
+    "code": "DK",
+    "flag": "https://media.api-sports.io/flags/dk.svg",
+    "confederation": "UEFA",
+    "strength": 78
+  },
+  {
+    "name": "Dominican-Republic",
+    "code": "DO",
+    "flag": "https://media.api-sports.io/flags/do.svg",
+    "confederation": "CONCACAF",
+    "strength": 30
+  },
+  {
+    "name": "Ecuador",
+    "code": "EC",
+    "flag": "https://media.api-sports.io/flags/ec.svg",
+    "confederation": "CONMEBOL",
+    "strength": 72
+  },
+  {
+    "name": "Egypt",
+    "code": "EG",
+    "flag": "https://media.api-sports.io/flags/eg.svg",
+    "confederation": "CAF",
+    "strength": 62
+  },
+  {
+    "name": "El-Salvador",
+    "code": "SV",
+    "flag": "https://media.api-sports.io/flags/sv.svg",
+    "confederation": "CONCACAF",
+    "strength": 40
+  },
+  {
+    "name": "England",
+    "code": "GB-ENG",
+    "flag": "https://media.api-sports.io/flags/gb-eng.svg",
+    "confederation": "UEFA",
+    "strength": 90
+  },
+  {
+    "name": "Estonia",
+    "code": "EE",
+    "flag": "https://media.api-sports.io/flags/ee.svg",
+    "confederation": "UEFA",
+    "strength": 38
+  },
+  {
+    "name": "Eswatini",
+    "code": "SZ",
+    "flag": "https://media.api-sports.io/flags/sz.svg",
+    "confederation": "CAF",
+    "strength": 28
+  },
+  {
+    "name": "Ethiopia",
+    "code": "ET",
+    "flag": "https://media.api-sports.io/flags/et.svg",
+    "confederation": "CAF",
+    "strength": 35
+  },
+  {
+    "name": "Faroe-Islands",
+    "code": "FO",
+    "flag": "https://media.api-sports.io/flags/fo.svg",
+    "confederation": "UEFA",
+    "strength": 32
+  },
+  {
+    "name": "Fiji",
+    "code": "FJ",
+    "flag": "https://media.api-sports.io/flags/fj.svg",
+    "confederation": "OFC",
+    "strength": 35
+  },
+  {
+    "name": "Finland",
+    "code": "FI",
+    "flag": "https://media.api-sports.io/flags/fi.svg",
+    "confederation": "UEFA",
+    "strength": 58
+  },
+  {
+    "name": "France",
+    "code": "FR",
+    "flag": "https://media.api-sports.io/flags/fr.svg",
+    "confederation": "UEFA",
+    "strength": 92
+  },
+  {
+    "name": "Gabon",
+    "code": "GA",
+    "flag": "https://media.api-sports.io/flags/ga.svg",
+    "confederation": "CAF",
+    "strength": 48
+  },
+  {
+    "name": "Gambia",
+    "code": "GM",
+    "flag": "https://media.api-sports.io/flags/gm.svg",
+    "confederation": "CAF",
+    "strength": 42
+  },
+  {
+    "name": "Georgia",
+    "code": "GE",
+    "flag": "https://media.api-sports.io/flags/ge.svg",
+    "confederation": "UEFA",
+    "strength": 60
+  },
+  {
+    "name": "Germany",
+    "code": "DE",
+    "flag": "https://media.api-sports.io/flags/de.svg",
+    "confederation": "UEFA",
+    "strength": 88
+  },
+  {
+    "name": "Ghana",
+    "code": "GH",
+    "flag": "https://media.api-sports.io/flags/gh.svg",
+    "confederation": "CAF",
+    "strength": 60
+  },
+  {
+    "name": "Gibraltar",
+    "code": "GI",
+    "flag": "https://media.api-sports.io/flags/gi.svg",
+    "confederation": "UEFA",
+    "strength": 22
+  },
+  {
+    "name": "Greece",
+    "code": "GR",
+    "flag": "https://media.api-sports.io/flags/gr.svg",
+    "confederation": "UEFA",
+    "strength": 62
+  },
+  {
+    "name": "Grenada",
+    "code": "GD",
+    "flag": "https://media.api-sports.io/flags/gd.svg",
+    "confederation": "CONCACAF",
+    "strength": 26
+  },
+  {
+    "name": "Guadeloupe",
+    "code": "GP",
+    "flag": "https://media.api-sports.io/flags/gp.svg",
+    "confederation": "CONCACAF",
+    "strength": 28
+  },
+  {
+    "name": "Guatemala",
+    "code": "GT",
+    "flag": "https://media.api-sports.io/flags/gt.svg",
+    "confederation": "CONCACAF",
+    "strength": 45
+  },
+  {
+    "name": "Guinea",
+    "code": "GN",
+    "flag": "https://media.api-sports.io/flags/gn.svg",
+    "confederation": "CAF",
+    "strength": 50
+  },
+  {
+    "name": "Haiti",
+    "code": "HT",
+    "flag": "https://media.api-sports.io/flags/ht.svg",
+    "confederation": "CONCACAF",
+    "strength": 32
+  },
+  {
+    "name": "Honduras",
+    "code": "HN",
+    "flag": "https://media.api-sports.io/flags/hn.svg",
+    "confederation": "CONCACAF",
+    "strength": 50
+  },
+  {
+    "name": "Hong-Kong",
+    "code": "HK",
+    "flag": "https://media.api-sports.io/flags/hk.svg",
+    "confederation": "AFC",
+    "strength": 38
+  },
+  {
+    "name": "Hungary",
+    "code": "HU",
+    "flag": "https://media.api-sports.io/flags/hu.svg",
+    "confederation": "UEFA",
+    "strength": 64
+  },
+  {
+    "name": "Iceland",
+    "code": "IS",
+    "flag": "https://media.api-sports.io/flags/is.svg",
+    "confederation": "UEFA",
+    "strength": 56
+  },
+  {
+    "name": "India",
+    "code": "IN",
+    "flag": "https://media.api-sports.io/flags/in.svg",
+    "confederation": "AFC",
+    "strength": 42
+  },
+  {
+    "name": "Indonesia",
+    "code": "ID",
+    "flag": "https://media.api-sports.io/flags/id.svg",
+    "confederation": "AFC",
+    "strength": 45
+  },
+  {
+    "name": "Iran",
+    "code": "IR",
+    "flag": "https://media.api-sports.io/flags/ir.svg",
+    "confederation": "AFC",
+    "strength": 72
+  },
+  {
+    "name": "Iraq",
+    "code": "IQ",
+    "flag": "https://media.api-sports.io/flags/iq.svg",
+    "confederation": "AFC",
+    "strength": 62
+  },
+  {
+    "name": "Ireland",
+    "code": "IE",
+    "flag": "https://media.api-sports.io/flags/ie.svg",
+    "confederation": "UEFA",
+    "strength": 64
+  },
+  {
+    "name": "Israel",
+    "code": "IL",
+    "flag": "https://media.api-sports.io/flags/il.svg",
+    "confederation": "UEFA",
+    "strength": 56
+  },
+  {
+    "name": "Italy",
+    "code": "IT",
+    "flag": "https://media.api-sports.io/flags/it.svg",
+    "confederation": "UEFA",
+    "strength": 86
+  },
+  {
+    "name": "Ivory-Coast",
+    "code": "CI",
+    "flag": "https://media.api-sports.io/flags/ci.svg",
+    "confederation": "CAF",
+    "strength": 68
+  },
+  {
+    "name": "Jamaica",
+    "code": "JM",
+    "flag": "https://media.api-sports.io/flags/jm.svg",
+    "confederation": "CONCACAF",
+    "strength": 54
+  },
+  {
+    "name": "Japan",
+    "code": "JP",
+    "flag": "https://media.api-sports.io/flags/jp.svg",
+    "confederation": "AFC",
+    "strength": 78
+  },
+  {
+    "name": "Jordan",
+    "code": "JO",
+    "flag": "https://media.api-sports.io/flags/jo.svg",
+    "confederation": "AFC",
+    "strength": 55
+  },
+  {
+    "name": "Kazakhstan",
+    "code": "KZ",
+    "flag": "https://media.api-sports.io/flags/kz.svg",
+    "confederation": "UEFA",
+    "strength": 46
+  },
+  {
+    "name": "Kenya",
+    "code": "KE",
+    "flag": "https://media.api-sports.io/flags/ke.svg",
+    "confederation": "CAF",
+    "strength": 40
+  },
+  {
+    "name": "Kosovo",
+    "code": "XK",
+    "flag": "https://media.api-sports.io/flags/xk.svg",
+    "confederation": "UEFA",
+    "strength": 50
+  },
+  {
+    "name": "Kuwait",
+    "code": "KW",
+    "flag": "https://media.api-sports.io/flags/kw.svg",
+    "confederation": "AFC",
+    "strength": 48
+  },
+  {
+    "name": "Kyrgyzstan",
+    "code": "KG",
+    "flag": "https://media.api-sports.io/flags/kg.svg",
+    "confederation": "AFC",
+    "strength": 40
+  },
+  {
+    "name": "Laos",
+    "code": "LA",
+    "flag": "https://media.api-sports.io/flags/la.svg",
+    "confederation": "AFC",
+    "strength": 26
+  },
+  {
+    "name": "Latvia",
+    "code": "LV",
+    "flag": "https://media.api-sports.io/flags/lv.svg",
+    "confederation": "UEFA",
+    "strength": 44
+  },
+  {
+    "name": "Lebanon",
+    "code": "LB",
+    "flag": "https://media.api-sports.io/flags/lb.svg",
+    "confederation": "AFC",
+    "strength": 46
+  },
+  {
+    "name": "Lesotho",
+    "code": "LS",
+    "flag": "https://media.api-sports.io/flags/ls.svg",
+    "confederation": "CAF",
+    "strength": 30
+  },
+  {
+    "name": "Liberia",
+    "code": "LR",
+    "flag": "https://media.api-sports.io/flags/lr.svg",
+    "confederation": "CAF",
+    "strength": 36
+  },
+  {
+    "name": "Libya",
+    "code": "LY",
+    "flag": "https://media.api-sports.io/flags/ly.svg",
+    "confederation": "CAF",
+    "strength": 44
+  },
+  {
+    "name": "Liechtenstein",
+    "code": "LI",
+    "flag": "https://media.api-sports.io/flags/li.svg",
+    "confederation": "UEFA",
+    "strength": 24
+  },
+  {
+    "name": "Lithuania",
+    "code": "LT",
+    "flag": "https://media.api-sports.io/flags/lt.svg",
+    "confederation": "UEFA",
+    "strength": 42
+  },
+  {
+    "name": "Luxembourg",
+    "code": "LU",
+    "flag": "https://media.api-sports.io/flags/lu.svg",
+    "confederation": "UEFA",
+    "strength": 46
+  },
+  {
+    "name": "Macao",
+    "code": "MO",
+    "flag": "https://media.api-sports.io/flags/mo.svg",
+    "confederation": "AFC",
+    "strength": 20
+  },
+  {
+    "name": "Macedonia",
+    "code": "MK",
+    "flag": "https://media.api-sports.io/flags/mk.svg",
+    "confederation": "UEFA",
+    "strength": 52
+  },
+  {
+    "name": "Malawi",
+    "code": "MW",
+    "flag": "https://media.api-sports.io/flags/mw.svg",
+    "confederation": "CAF",
+    "strength": 38
+  },
+  {
+    "name": "Malaysia",
+    "code": "MY",
+    "flag": "https://media.api-sports.io/flags/my.svg",
+    "confederation": "AFC",
+    "strength": 46
+  },
+  {
+    "name": "Maldives",
+    "code": "MV",
+    "flag": "https://media.api-sports.io/flags/mv.svg",
+    "confederation": "AFC",
+    "strength": 32
+  },
+  {
+    "name": "Mali",
+    "code": "ML",
+    "flag": "https://media.api-sports.io/flags/ml.svg",
+    "confederation": "CAF",
+    "strength": 58
+  },
+  {
+    "name": "Malta",
+    "code": "MT",
+    "flag": "https://media.api-sports.io/flags/mt.svg",
+    "confederation": "UEFA",
+    "strength": 34
+  },
+  {
+    "name": "Mauritania",
+    "code": "MR",
+    "flag": "https://media.api-sports.io/flags/mr.svg",
+    "confederation": "CAF",
+    "strength": 44
+  },
+  {
+    "name": "Mauritius",
+    "code": "MU",
+    "flag": "https://media.api-sports.io/flags/mu.svg",
+    "confederation": "CAF",
+    "strength": 32
+  },
+  {
+    "name": "Mexico",
+    "code": "MX",
+    "flag": "https://media.api-sports.io/flags/mx.svg",
+    "confederation": "CONCACAF",
+    "strength": 78
+  },
+  {
+    "name": "Moldova",
+    "code": "MD",
+    "flag": "https://media.api-sports.io/flags/md.svg",
+    "confederation": "UEFA",
+    "strength": 40
+  },
+  {
+    "name": "Mongolia",
+    "code": "MN",
+    "flag": "https://media.api-sports.io/flags/mn.svg",
+    "confederation": "AFC",
+    "strength": 24
+  },
+  {
+    "name": "Montenegro",
+    "code": "ME",
+    "flag": "https://media.api-sports.io/flags/me.svg",
+    "confederation": "UEFA",
+    "strength": 54
+  },
+  {
+    "name": "Morocco",
+    "code": "MA",
+    "flag": "https://media.api-sports.io/flags/ma.svg",
+    "confederation": "CAF",
+    "strength": 76
+  },
+  {
+    "name": "Myanmar",
+    "code": "MM",
+    "flag": "https://media.api-sports.io/flags/mm.svg",
+    "confederation": "AFC",
+    "strength": 34
+  },
+  {
+    "name": "Namibia",
+    "code": "NA",
+    "flag": "https://media.api-sports.io/flags/na.svg",
+    "confederation": "CAF",
+    "strength": 38
+  },
+  {
+    "name": "Nepal",
+    "code": "NP",
+    "flag": "https://media.api-sports.io/flags/np.svg",
+    "confederation": "AFC",
+    "strength": 28
+  },
+  {
+    "name": "Netherlands",
+    "code": "NL",
+    "flag": "https://media.api-sports.io/flags/nl.svg",
+    "confederation": "UEFA",
+    "strength": 85
+  },
+  {
+    "name": "New-Caledonia",
+    "code": "NC",
+    "flag": "https://media.api-sports.io/flags/nc.svg",
+    "confederation": "OFC",
+    "strength": 46
+  },
+  {
+    "name": "New-Zealand",
+    "code": "NZ",
+    "flag": "https://media.api-sports.io/flags/nz.svg",
+    "confederation": "OFC",
+    "strength": 55
+  },
+  {
+    "name": "Nicaragua",
+    "code": "NI",
+    "flag": "https://media.api-sports.io/flags/ni.svg",
+    "confederation": "CONCACAF",
+    "strength": 35
+  },
+  {
+    "name": "Nigeria",
+    "code": "NG",
+    "flag": "https://media.api-sports.io/flags/ng.svg",
+    "confederation": "CAF",
+    "strength": 70
+  },
+  {
+    "name": "Northern-Ireland",
+    "code": "GB-NIR",
+    "flag": "https://media.api-sports.io/flags/gb-nir.svg",
+    "confederation": "UEFA",
+    "strength": 52
+  },
+  {
+    "name": "Norway",
+    "code": "NO",
+    "flag": "https://media.api-sports.io/flags/no.svg",
+    "confederation": "UEFA",
+    "strength": 72
+  },
+  {
+    "name": "Oman",
+    "code": "OM",
+    "flag": "https://media.api-sports.io/flags/om.svg",
+    "confederation": "AFC",
+    "strength": 52
+  },
+  {
+    "name": "Pakistan",
+    "code": "PK",
+    "flag": "https://media.api-sports.io/flags/pk.svg",
+    "confederation": "AFC",
+    "strength": 26
+  },
+  {
+    "name": "Palestine",
+    "code": "PS",
+    "flag": "https://media.api-sports.io/flags/ps.svg",
+    "confederation": "AFC",
+    "strength": 48
+  },
+  {
+    "name": "Panama",
+    "code": "PA",
+    "flag": "https://media.api-sports.io/flags/pa.svg",
+    "confederation": "CONCACAF",
+    "strength": 58
+  },
+  {
+    "name": "Papua-New-Guinea",
+    "code": "PG",
+    "flag": "https://media.api-sports.io/flags/pg.svg",
+    "confederation": "OFC",
+    "strength": 34
+  },
+  {
+    "name": "Paraguay",
+    "code": "PY",
+    "flag": "https://media.api-sports.io/flags/py.svg",
+    "confederation": "CONMEBOL",
+    "strength": 62
+  },
+  {
+    "name": "Peru",
+    "code": "PE",
+    "flag": "https://media.api-sports.io/flags/pe.svg",
+    "confederation": "CONMEBOL",
+    "strength": 66
+  },
+  {
+    "name": "Philippines",
+    "code": "PH",
+    "flag": "https://media.api-sports.io/flags/ph.svg",
+    "confederation": "AFC",
+    "strength": 42
+  },
+  {
+    "name": "Poland",
+    "code": "PL",
+    "flag": "https://media.api-sports.io/flags/pl.svg",
+    "confederation": "UEFA",
+    "strength": 74
+  },
+  {
+    "name": "Portugal",
+    "code": "PT",
+    "flag": "https://media.api-sports.io/flags/pt.svg",
+    "confederation": "UEFA",
+    "strength": 87
+  },
+  {
+    "name": "Qatar",
+    "code": "QA",
+    "flag": "https://media.api-sports.io/flags/qa.svg",
+    "confederation": "AFC",
+    "strength": 56
+  },
+  {
+    "name": "Romania",
+    "code": "RO",
+    "flag": "https://media.api-sports.io/flags/ro.svg",
+    "confederation": "UEFA",
+    "strength": 60
+  },
+  {
+    "name": "Russia",
+    "code": "RU",
+    "flag": "https://media.api-sports.io/flags/ru.svg",
+    "confederation": "UEFA",
+    "strength": 66
+  },
+  {
+    "name": "Rwanda",
+    "code": "RW",
+    "flag": "https://media.api-sports.io/flags/rw.svg",
+    "confederation": "CAF",
+    "strength": 38
+  },
+  {
+    "name": "Samoa",
+    "code": "WS",
+    "flag": "https://media.api-sports.io/flags/ws.svg",
+    "confederation": "OFC",
+    "strength": 30
+  },
+  {
+    "name": "San-Marino",
+    "code": "SM",
+    "flag": "https://media.api-sports.io/flags/sm.svg",
+    "confederation": "UEFA",
+    "strength": 18
+  },
+  {
+    "name": "Saudi-Arabia",
+    "code": "SA",
+    "flag": "https://media.api-sports.io/flags/sa.svg",
+    "confederation": "AFC",
+    "strength": 68
+  },
+  {
+    "name": "Scotland",
+    "code": "GB-SCT",
+    "flag": "https://media.api-sports.io/flags/gb-sct.svg",
+    "confederation": "UEFA",
+    "strength": 70
+  },
+  {
+    "name": "Senegal",
+    "code": "SN",
+    "flag": "https://media.api-sports.io/flags/sn.svg",
+    "confederation": "CAF",
+    "strength": 72
+  },
+  {
+    "name": "Serbia",
+    "code": "RS",
+    "flag": "https://media.api-sports.io/flags/rs.svg",
+    "confederation": "UEFA",
+    "strength": 72
+  },
+  {
+    "name": "Singapore",
+    "code": "SG",
+    "flag": "https://media.api-sports.io/flags/sg.svg",
+    "confederation": "AFC",
+    "strength": 36
+  },
+  {
+    "name": "Slovakia",
+    "code": "SK",
+    "flag": "https://media.api-sports.io/flags/sk.svg",
+    "confederation": "UEFA",
+    "strength": 62
+  },
+  {
+    "name": "Slovenia",
+    "code": "SI",
+    "flag": "https://media.api-sports.io/flags/si.svg",
+    "confederation": "UEFA",
+    "strength": 64
+  },
+  {
+    "name": "Solomon-Islands",
+    "code": "SB",
+    "flag": "https://media.api-sports.io/flags/sb.svg",
+    "confederation": "OFC",
+    "strength": 42
+  },
+  {
+    "name": "Somalia",
+    "code": "SO",
+    "flag": "https://media.api-sports.io/flags/so.svg",
+    "confederation": "CAF",
+    "strength": 22
+  },
+  {
+    "name": "South-Africa",
+    "code": "ZA",
+    "flag": "https://media.api-sports.io/flags/za.svg",
+    "confederation": "CAF",
+    "strength": 58
+  },
+  {
+    "name": "South-Korea",
+    "code": "KR",
+    "flag": "https://media.api-sports.io/flags/kr.svg",
+    "confederation": "AFC",
+    "strength": 76
+  },
+  {
+    "name": "Spain",
+    "code": "ES",
+    "flag": "https://media.api-sports.io/flags/es.svg",
+    "confederation": "UEFA",
+    "strength": 89
+  },
+  {
+    "name": "Sudan",
+    "code": "SD",
+    "flag": "https://media.api-sports.io/flags/sd.svg",
+    "confederation": "CAF",
+    "strength": 36
+  },
+  {
+    "name": "Suriname",
+    "code": "SR",
+    "flag": "https://media.api-sports.io/flags/sr.svg",
+    "confederation": "CONCACAF",
+    "strength": 38
+  },
+  {
+    "name": "Sweden",
+    "code": "SE",
+    "flag": "https://media.api-sports.io/flags/se.svg",
+    "confederation": "UEFA",
+    "strength": 76
+  },
+  {
+    "name": "Switzerland",
+    "code": "CH",
+    "flag": "https://media.api-sports.io/flags/ch.svg",
+    "confederation": "UEFA",
+    "strength": 80
+  },
+  {
+    "name": "Syria",
+    "code": "SY",
+    "flag": "https://media.api-sports.io/flags/sy.svg",
+    "confederation": "AFC",
+    "strength": 50
+  },
+  {
+    "name": "Tahiti",
+    "code": "PF",
+    "flag": "https://media.api-sports.io/flags/pf.svg",
+    "confederation": "OFC",
+    "strength": 36
+  },
+  {
+    "name": "Tajikistan",
+    "code": "TJ",
+    "flag": "https://media.api-sports.io/flags/tj.svg",
+    "confederation": "AFC",
+    "strength": 38
+  },
+  {
+    "name": "Tanzania",
+    "code": "TZ",
+    "flag": "https://media.api-sports.io/flags/tz.svg",
+    "confederation": "CAF",
+    "strength": 40
+  },
+  {
+    "name": "Thailand",
+    "code": "TH",
+    "flag": "https://media.api-sports.io/flags/th.svg",
+    "confederation": "AFC",
+    "strength": 52
+  },
+  {
+    "name": "Togo",
+    "code": "TG",
+    "flag": "https://media.api-sports.io/flags/tg.svg",
+    "confederation": "CAF",
+    "strength": 42
+  },
+  {
+    "name": "Tonga",
+    "code": "TO",
+    "flag": "https://media.api-sports.io/flags/to.svg",
+    "confederation": "OFC",
+    "strength": 26
+  },
+  {
+    "name": "Trinidad-And-Tobago",
+    "code": "TT",
+    "flag": "https://media.api-sports.io/flags/tt.svg",
+    "confederation": "CONCACAF",
+    "strength": 44
+  },
+  {
+    "name": "Tunisia",
+    "code": "TN",
+    "flag": "https://media.api-sports.io/flags/tn.svg",
+    "confederation": "CAF",
+    "strength": 64
+  },
+  {
+    "name": "Turkey",
+    "code": "TR",
+    "flag": "https://media.api-sports.io/flags/tr.svg",
+    "confederation": "UEFA",
+    "strength": 74
+  },
+  {
+    "name": "Turkmenistan",
+    "code": "TM",
+    "flag": "https://media.api-sports.io/flags/tm.svg",
+    "confederation": "AFC",
+    "strength": 36
+  },
+  {
+    "name": "Uganda",
+    "code": "UG",
+    "flag": "https://media.api-sports.io/flags/ug.svg",
+    "confederation": "CAF",
+    "strength": 46
+  },
+  {
+    "name": "Ukraine",
+    "code": "UA",
+    "flag": "https://media.api-sports.io/flags/ua.svg",
+    "confederation": "UEFA",
+    "strength": 70
+  },
+  {
+    "name": "United-Arab-Emirates",
+    "code": "AE",
+    "flag": "https://media.api-sports.io/flags/ae.svg",
+    "confederation": "AFC",
+    "strength": 60
+  },
+  {
+    "name": "Uruguay",
+    "code": "UY",
+    "flag": "https://media.api-sports.io/flags/uy.svg",
+    "confederation": "CONMEBOL",
+    "strength": 82
+  },
+  {
+    "name": "USA",
+    "code": "US",
+    "flag": "https://media.api-sports.io/flags/us.svg",
+    "confederation": "CONCACAF",
+    "strength": 74
+  },
+  {
+    "name": "Uzbekistan",
+    "code": "UZ",
+    "flag": "https://media.api-sports.io/flags/uz.svg",
+    "confederation": "AFC",
+    "strength": 54
+  },
+  {
+    "name": "Vanuatu",
+    "code": "VU",
+    "flag": "https://media.api-sports.io/flags/vu.svg",
+    "confederation": "OFC",
+    "strength": 40
+  },
+  {
+    "name": "Venezuela",
+    "code": "VE",
+    "flag": "https://media.api-sports.io/flags/ve.svg",
+    "confederation": "CONMEBOL",
+    "strength": 55
+  },
+  {
+    "name": "Vietnam",
+    "code": "VN",
+    "flag": "https://media.api-sports.io/flags/vn.svg",
+    "confederation": "AFC",
+    "strength": 50
+  },
+  {
+    "name": "Wales",
+    "code": "GB-WLS",
+    "flag": "https://media.api-sports.io/flags/gb-wls.svg",
+    "confederation": "UEFA",
+    "strength": 68
+  },
+  {
+    "name": "Yemen",
+    "code": "YE",
+    "flag": "https://media.api-sports.io/flags/ye.svg",
+    "confederation": "AFC",
+    "strength": 32
+  },
+  {
+    "name": "Zambia",
+    "code": "ZM",
+    "flag": "https://media.api-sports.io/flags/zm.svg",
+    "confederation": "CAF",
+    "strength": 44
+  },
+  {
+    "name": "Zimbabwe",
+    "code": "ZW",
+    "flag": "https://media.api-sports.io/flags/zw.svg",
+    "confederation": "CAF",
+    "strength": 42
+  }
+]
