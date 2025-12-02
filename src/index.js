@@ -9,6 +9,10 @@ import {
   toggleButtons,
   showQualifyButton,
   renderGroups,
+  renderSingleGroup,
+  showGroupSimulating,
+  clearGroups,
+  renderRoundOf16,
 } from "./dom.js";
 
 // ============================================================================
@@ -938,11 +942,28 @@ function redrawGroups() {
 // WORLD CUP GROUP STAGE SIMULATION
 // ============================================================================
 
-function playWorldCupGroups() {
+async function playWorldCupGroups() {
   // Check if we have groups drawn
   if (!currentGroups || currentGroups.length === 0) {
     alert("Erro: Nenhum grupo sorteado. Por favor, faça o sorteio primeiro.");
     return;
+  }
+
+  // Disable buttons during simulation
+  const playWorldCupButton = document.getElementById("play-world-cup-button");
+  const redrawGroupsButton = document.getElementById("redraw-groups-button");
+
+  if (playWorldCupButton) {
+    playWorldCupButton.disabled = true;
+  }
+  if (redrawGroupsButton) {
+    redrawGroupsButton.disabled = true;
+  }
+
+  // Update the title
+  const mainTitle = document.getElementById("main-title");
+  if (mainTitle) {
+    mainTitle.textContent = "Simulating Groups...";
   }
 
   // Create a deep copy of current groups to avoid mutating the original
@@ -950,23 +971,39 @@ function playWorldCupGroups() {
     group.map((team) => ({ ...team, points: 0 }))
   );
 
-  // Run league simulation for each group
-  const updatedGroups = groupsToPlay.map((group) => {
-    return simulateLeague(group);
-  });
+  // Simulate and render each group progressively
+  const updatedGroups = [];
+
+  for (let i = 0; i < groupsToPlay.length; i++) {
+    // Show "Simulando..." for current group
+    showGroupSimulating(i);
+
+    // Wait for 0.5 seconds
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Simulate the league for this group
+    const simulatedGroup = simulateLeague(groupsToPlay[i]);
+    updatedGroups.push(simulatedGroup);
+
+    // Render the simulated group
+    renderSingleGroup(simulatedGroup, i);
+  }
 
   // Store the updated groups
   currentGroups = updatedGroups;
 
-  // Render the updated groups with points
-  renderGroups(updatedGroups);
+  // Re-enable buttons
+  if (playWorldCupButton) {
+    playWorldCupButton.disabled = false;
+  }
+  if (redrawGroupsButton) {
+    redrawGroupsButton.disabled = false;
+  }
 
   // Hide the "Play World Cup Groups" button and show "Initiate Playoffs" button
-  const playWorldCupButton = document.getElementById("play-world-cup-button");
   const initiatePlayoffsButton = document.getElementById(
     "initiate-playoffs-button"
   );
-  const redrawGroupsButton = document.getElementById("redraw-groups-button");
 
   if (playWorldCupButton) {
     playWorldCupButton.style.display = "none";
@@ -988,17 +1025,35 @@ function playWorldCupGroups() {
   }
 
   // Update the title
-  const mainTitle = document.getElementById("main-title");
   if (mainTitle) {
     mainTitle.textContent = "Groups Complete - Ready for Playoffs";
   }
 }
 
-function replayWorldCupGroups() {
+async function replayWorldCupGroups() {
   // Check if we have groups drawn
   if (!currentGroups || currentGroups.length === 0) {
     alert("Erro: Nenhum grupo sorteado. Por favor, faça o sorteio primeiro.");
     return;
+  }
+
+  // Disable buttons during simulation
+  const redrawGroupsButton = document.getElementById("redraw-groups-button");
+  const initiatePlayoffsButton = document.getElementById(
+    "initiate-playoffs-button"
+  );
+
+  if (redrawGroupsButton) {
+    redrawGroupsButton.disabled = true;
+  }
+  if (initiatePlayoffsButton) {
+    initiatePlayoffsButton.disabled = true;
+  }
+
+  // Update the title
+  const mainTitle = document.getElementById("main-title");
+  if (mainTitle) {
+    mainTitle.textContent = "Simulando grupos...";
   }
 
   // Create a deep copy of current groups to avoid mutating the original
@@ -1007,16 +1062,39 @@ function replayWorldCupGroups() {
     group.map((team) => ({ ...team, points: 0 }))
   );
 
-  // Run league simulation for each group
-  const updatedGroups = groupsToPlay.map((group) => {
-    return simulateLeague(group);
-  });
+  // Simulate and render each group progressively
+  const updatedGroups = [];
+
+  for (let i = 0; i < groupsToPlay.length; i++) {
+    // Show "Simulando..." for current group
+    showGroupSimulating(i);
+
+    // Wait for 0.5 seconds
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Simulate the league for this group
+    const simulatedGroup = simulateLeague(groupsToPlay[i]);
+    updatedGroups.push(simulatedGroup);
+
+    // Render the simulated group
+    renderSingleGroup(simulatedGroup, i);
+  }
 
   // Store the updated groups
   currentGroups = updatedGroups;
 
-  // Render the updated groups with points
-  renderGroups(updatedGroups);
+  // Re-enable buttons
+  if (redrawGroupsButton) {
+    redrawGroupsButton.disabled = false;
+  }
+  if (initiatePlayoffsButton) {
+    initiatePlayoffsButton.disabled = false;
+  }
+
+  // Update the title
+  if (mainTitle) {
+    mainTitle.textContent = "Groups Complete - Ready for Playoffs";
+  }
 }
 
 // ============================================================================
@@ -1026,7 +1104,41 @@ function replayWorldCupGroups() {
 function initiatePlayoffs() {
   const firsts = currentGroups.map((group) => group[0]);
   const seconds = currentGroups.map((group) => group[1]);
-  console.log(firsts);
+
+  // Shuffle both arrays randomly
+  firsts.sort(() => Math.random() - 0.5);
+  seconds.sort(() => Math.random() - 0.5);
+
+  //define matches
+  const matches = [];
+  matches.push([firsts[0], seconds[0]]);
+  matches.push([firsts[1], seconds[1]]);
+  matches.push([firsts[2], seconds[2]]);
+  matches.push([firsts[3], seconds[3]]);
+  matches.push([firsts[4], seconds[4]]);
+  matches.push([firsts[5], seconds[5]]);
+  matches.push([firsts[6], seconds[6]]);
+  matches.push([firsts[7], seconds[7]]);
+  matches.push([firsts[8], seconds[8]]);
+  matches.push([firsts[9], seconds[9]]);
+  matches.push([firsts[10], seconds[10]]);
+  matches.push([firsts[11], seconds[11]]);
+  matches.push([firsts[12], seconds[12]]);
+  matches.push([firsts[13], seconds[13]]);
+  matches.push([firsts[14], seconds[14]]);
+  matches.push([firsts[15], seconds[15]]);
+
+  // Clear the groups display
+  clearGroups();
+
+  // Render the Round of 16 matches
+  renderRoundOf16(matches);
+
+  // Update the title
+  const mainTitle = document.getElementById("main-title");
+  if (mainTitle) {
+    mainTitle.textContent = "Round of 16 - Knockout Stage";
+  }
 }
 
 // ============================================================================
