@@ -199,3 +199,77 @@ export function addDrawGroupsButtonListener(callback) {
     button.addEventListener("click", callback);
   }
 }
+
+/**
+ * Render the groups after draw
+ * @param {Array} groups - Array of 16 groups (A-P), each containing 4 teams
+ */
+export function renderGroups(groups) {
+  const sectionsGrid = document.querySelector(".sections-grid");
+  if (!sectionsGrid) return;
+
+  // Clear existing content
+  sectionsGrid.innerHTML = "";
+
+  // Group names from A to P
+  const groupNames = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+  ];
+
+  // Render each group
+  groups.forEach((group, index) => {
+    const groupName = groupNames[index];
+    const groupSection = document.createElement("section");
+    groupSection.className = "confed-section";
+    groupSection.id = `group-${groupName.toLowerCase()}-section`;
+
+    const groupTitle = document.createElement("h3");
+    groupTitle.className = "section-title";
+    groupTitle.textContent = `Group ${groupName}`;
+
+    const teamsList = document.createElement("ul");
+    teamsList.className = "teams-list";
+    teamsList.id = `group-${groupName.toLowerCase()}-teams-list`;
+
+    // Add teams to the group
+    group.forEach((team, teamIndex) => {
+      const listItem = document.createElement("li");
+      listItem.className = "team-item";
+
+      listItem.innerHTML = `
+        <div class="team-card">
+          <span class="team-position">${teamIndex + 1}</span>
+          <img src="${team.flag}" alt="${team.name} flag" class="team-flag">
+          <div class="team-info">
+            <h3 class="team-name">${team.name}</h3>
+            <p class="team-strength">STR: ${team.strength}</p>
+          </div>
+          <span class="team-points-badge">${
+            typeof team.points === "number" ? team.points : 0
+          }</span>
+        </div>
+      `;
+
+      teamsList.appendChild(listItem);
+    });
+
+    groupSection.appendChild(groupTitle);
+    groupSection.appendChild(teamsList);
+    sectionsGrid.appendChild(groupSection);
+  });
+}

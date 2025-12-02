@@ -80,28 +80,38 @@ h2 {
   align-items: center;
   gap: 12px;
   margin: 30px auto;
+  flex-wrap: wrap;
 }
 
+/* Base button styles */
+button {
+  font-family: inherit;
+  outline: none;
+}
+
+/* Primary action buttons (Blue theme) */
 #qualify-button,
-#draw-groups-button {
+#draw-groups-button,
+#play-world-cup-button {
   padding: 14px 40px;
   font-size: 0.95rem;
   font-weight: 600;
   color: #ffffff;
   background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
   border: 1px solid rgba(59, 130, 246, 0.3);
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   position: relative;
   overflow: hidden;
 }
 
 #qualify-button::before,
-#draw-groups-button::before {
+#draw-groups-button::before,
+#play-world-cup-button::before {
   content: "";
   position: absolute;
   top: 0;
@@ -111,35 +121,105 @@ h2 {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.15),
     transparent
   );
-  transition: left 0.5s;
+  transition: left 0.6s;
 }
 
 #qualify-button:hover::before,
-#draw-groups-button:hover::before {
+#draw-groups-button:hover::before,
+#play-world-cup-button:hover::before {
   left: 100%;
 }
 
-#reset-button.icon-button {
+#qualify-button:hover:not(:disabled),
+#draw-groups-button:hover:not(:disabled),
+#play-world-cup-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+#qualify-button:active:not(:disabled),
+#draw-groups-button:active:not(:disabled),
+#play-world-cup-button:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Start Over button (Red theme) */
+#start-over-button {
+  padding: 14px 40px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  position: relative;
+  overflow: hidden;
+}
+
+#start-over-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transition: left 0.6s;
+}
+
+#start-over-button:hover::before {
+  left: 100%;
+}
+
+#start-over-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border-color: rgba(239, 68, 68, 0.6);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+#start-over-button:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Icon buttons (Green theme for reset/redraw) */
+#reset-button.icon-button,
+#redraw-groups-button.icon-button {
   padding: 11px;
   width: 44px;
   height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #065f46 0%, #064e3b 100%);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
   border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
 }
 
-#reset-button.icon-button::before {
+#reset-button.icon-button::before,
+#redraw-groups-button.icon-button::before {
   content: "";
   position: absolute;
   top: 0;
@@ -149,22 +229,26 @@ h2 {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.15),
     transparent
   );
-  transition: left 0.5s;
+  transition: left 0.6s;
 }
 
-#reset-button.icon-button:hover::before {
+#reset-button.icon-button:hover::before,
+#redraw-groups-button.icon-button:hover::before {
   left: 100%;
 }
 
-#reset-button.icon-button svg {
+#reset-button.icon-button svg,
+#redraw-groups-button.icon-button svg {
   animation: none;
   transition: transform 0.3s ease;
+  color: #ffffff;
 }
 
-#reset-button.icon-button:hover svg {
+#reset-button.icon-button:hover svg,
+#redraw-groups-button.icon-button:hover svg {
   animation: rotate 0.6s ease-in-out;
 }
 
@@ -177,34 +261,50 @@ h2 {
   }
 }
 
-#qualify-button:hover:not(:disabled),
-#draw-groups-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%);
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 4px 16px rgba(30, 64, 175, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
-  transform: translateY(-1px);
+#reset-button.icon-button:hover:not(:disabled),
+#redraw-groups-button.icon-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
-#reset-button.icon-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
-  border-color: rgba(16, 185, 129, 0.5);
-  box-shadow: 0 4px 16px rgba(6, 95, 70, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
-  transform: translateY(-1px);
-}
-
-#qualify-button:active:not(:disabled),
-#draw-groups-button:active:not(:disabled),
-#reset-button:active:not(:disabled) {
+#reset-button.icon-button:active:not(:disabled),
+#redraw-groups-button.icon-button:active:not(:disabled) {
   transform: translateY(0px);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-#qualify-button:disabled,
-#draw-groups-button:disabled,
-#reset-button:disabled {
-  opacity: 0.4;
+/* Disabled state for all buttons */
+button:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
-  filter: grayscale(0.5);
+  filter: grayscale(0.3);
+  transform: none !important;
+}
+
+/* Responsive button styles */
+@media (max-width: 768px) {
+  .button-group {
+    gap: 10px;
+    padding: 0 10px;
+  }
+
+  #qualify-button,
+  #draw-groups-button,
+  #play-world-cup-button,
+  #start-over-button {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+  }
+
+  #reset-button.icon-button,
+  #redraw-groups-button.icon-button {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+  }
 }
 
 /* List styles */
@@ -216,7 +316,7 @@ h2 {
 }
 
 .team-item {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   animation: slideIn 0.5s ease-out;
 }
 
@@ -236,11 +336,12 @@ h2 {
   display: flex;
   align-items: center;
   background: #252d3d;
-  padding: 8px;
+  padding: 6px 8px;
   border-radius: 8px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
   transition: all 0.2s ease;
   border: 1px solid #2a3142;
+  gap: 8px;
 }
 
 .team-card:hover {
@@ -250,46 +351,84 @@ h2 {
 }
 
 .team-position {
-  font-size: 1.05rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: #60a5fa;
-  width: 24px;
+  color: #9ca3af;
+  min-width: 16px;
   text-align: center;
-  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.team-points-badge {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fbbf24;
+  background: #1e3a5f;
+  min-width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 2px solid #3b82f6;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .team-flag {
-  width: 40px;
-  height: 28px;
+  width: 32px;
+  height: 22px;
   object-fit: cover;
-  border-radius: 3px;
-  margin-right: 8px;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   border: 1px solid #3a4152;
+  flex-shrink: 0;
 }
 
 .team-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .team-name {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #ffffff;
-  margin-bottom: 4px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .team-points,
 .team-strength,
-.team-qualification {
+.team-qualification,
+.team-confederation {
   font-size: 0.75rem;
   color: #9ca3af;
   margin: 1px 0;
 }
 
+.team-strength {
+  font-size: 0.65rem;
+  color: #10b981;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 .team-qualification {
   font-weight: 600;
   color: #60a5fa;
+}
+
+.team-confederation {
+  font-weight: 600;
+  color: #fbbf24;
 }
 
 /* Loading and error states */
@@ -329,20 +468,26 @@ h2 {
   }
 
   .team-card {
-    flex-direction: column;
-    text-align: center;
+    gap: 8px;
   }
 
-  .team-position {
-    margin-bottom: 10px;
+  .team-points-badge {
+    min-width: 28px;
+    height: 28px;
+    font-size: 1rem;
   }
 
   .team-flag {
-    margin: 10px 0;
+    width: 36px;
+    height: 25px;
   }
 
   .team-name {
-    font-size: 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  .team-strength {
+    font-size: 0.65rem;
   }
 }
 
@@ -362,14 +507,15 @@ h2 {
   display: flex;
   gap: 8px;
   margin-top: 10px;
-  flex-wrap: nowrap;
-  overflow-x: hidden;
+  flex-wrap: wrap;
+  overflow-x: auto;
 }
 
 .section-title {
   text-align: center;
   color: #9ca3af;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.5px;
 }
@@ -378,10 +524,16 @@ h2 {
   background: #161b28;
   border: 1px solid #2a3142;
   border-radius: 10px;
-  padding: 8px;
+  padding: 10px 8px;
   min-height: 180px;
   flex: 0 0 calc((100% - 40px) / 6);
-  min-width: 0;
+  min-width: 160px;
 }
 
-/* Keep all confederations in a single row on all sizes; allow horizontal scroll if needed */
+/* When displaying groups (more than 6 sections), adjust layout */
+.sections-grid:has(.confed-section:nth-child(7)) .confed-section {
+  flex: 0 0 calc((100% - 56px) / 8);
+  min-width: 160px;
+}
+
+/* Allow horizontal scroll if needed for groups */

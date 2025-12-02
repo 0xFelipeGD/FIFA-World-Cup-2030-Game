@@ -9,6 +9,7 @@ import {
   clearQualifiedList,
   toggleButtons,
   showQualifyButton,
+  renderGroups,
 } from "./dom.js";
 
 async function loadDatabase() {
@@ -618,10 +619,22 @@ async function runQualificationProcess() {
 
   setButtonEnabled(true);
   toggleButtons(); // Switch to reset button after qualification
+
+  // Update the title
+  const mainTitle = document.getElementById("main-title");
+  if (mainTitle) {
+    mainTitle.textContent = "Press to Re-Qualify teams or make the Draw";
+  }
 }
 
 // Function to reset and run qualification again
 function resetAndQualify() {
+  // Reset the title
+  const mainTitle = document.getElementById("main-title");
+  if (mainTitle) {
+    mainTitle.textContent = "Press to Qualify teams";
+  }
+
   showQualifyButton();
   runQualificationProcess();
 }
@@ -638,12 +651,201 @@ function QualifiedTeamsProcess() {
     ...qualifiedTeamsOFC
   );
 
-  return QualifiedTeams;
+  QualifiedTeams.forEach((team) => (team.points = 0));
+  QualifiedTeams.sort((a, b) => b.strength - a.strength);
+
+  const A = QualifiedTeams.slice(0, 16);
+  const B = QualifiedTeams.slice(16, 32);
+  const C = QualifiedTeams.slice(32, 48);
+  const D = QualifiedTeams.slice(48, 64);
+  const Pots = [];
+  Pots.push(A, B, C, D);
+
+  return Pots;
 }
 
-// Function to draw groups (placeholder)
+function Draw() {
+  const maxAttempts = 200;
+  let attempt = 0;
+
+  while (attempt < maxAttempts) {
+    attempt++;
+
+    const groups = Array.from({ length: 16 }, () => []);
+    const confederationCount = groups.map(() => ({}));
+    const Pots = QualifiedTeamsProcess();
+
+    let drawFailed = false;
+
+    // Process each pot sequentially to ensure one team from each pot per group
+    for (let potIndex = 0; potIndex < Pots.length; potIndex++) {
+      const pot = [...Pots[potIndex]];
+      pot.sort(() => Math.random() - 0.5); // Shuffle the pot
+
+      const groupIndices = Array.from({ length: 16 }, (_, i) => i);
+      groupIndices.sort(() => Math.random() - 0.5); // Shuffle group order
+
+      const unplacedInPot = [];
+
+      // Try to place each team from this pot
+      for (const team of pot) {
+        let placed = false;
+
+        for (const groupIndex of groupIndices) {
+          if (groups[groupIndex].length > potIndex) continue; // This group already has a team from this pot
+
+          const confCount = confederationCount[groupIndex];
+          const confederation = team.confederation;
+          const currentConfCount = confCount[confederation] || 0;
+          const maxAllowed = confederation === "UEFA" ? 2 : 1;
+
+          if (currentConfCount < maxAllowed) {
+            groups[groupIndex].push(team);
+            confCount[confederation] = currentConfCount + 1;
+            placed = true;
+            break;
+          }
+        }
+
+        if (!placed) {
+          unplacedInPot.push(team);
+        }
+      }
+
+      // If we couldn't place all teams from this pot, restart the draw
+      if (unplacedInPot.length > 0) {
+        drawFailed = true;
+        break;
+      }
+    }
+
+    if (drawFailed) {
+      continue; // Try again
+    }
+
+    // Verify that all groups have at least one UEFA team
+    const allGroupsHaveUEFA = groups.every((group) =>
+      group.some((team) => team.confederation === "UEFA")
+    );
+
+    // Verify that all groups have exactly 4 teams (one from each pot)
+    const allGroupsComplete = groups.every((group) => group.length === 4);
+
+    if (allGroupsHaveUEFA && allGroupsComplete) {
+      console.log(`✅ Sorteio bem-sucedido na tentativa ${attempt}!`);
+
+      // Log verification
+      groups.forEach((group, idx) => {
+        const groupName = String.fromCharCode(65 + idx);
+        const confs = group.map((t) => t.confederation);
+        const hasUEFA = confs.includes("UEFA");
+        console.log(
+          `Grupo ${groupName}: ${confs.join(", ")} - UEFA: ${
+            hasUEFA ? "✓" : "✗"
+          }`
+        );
+      });
+
+      return groups;
+    }
+  }
+
+  // If we couldn't complete the draw after max attempts, return null
+  console.error(
+    `❌ ERRO: Não foi possível completar o sorteio após ${maxAttempts} tentativas!`
+  );
+  alert("Erro no sorteio. Por favor, tente novamente.");
+  return null;
+}
+
+// Function to draw groups
 function drawGroups() {
-  console.table(QualifiedTeamsProcess());
+  // Clear all confederation lists
+  clearQualifiedList("conmebol-teams-list");
+  clearQualifiedList("concacaf-teams-list");
+  clearQualifiedList("caf-teams-list");
+  clearQualifiedList("afc-teams-list");
+  clearQualifiedList("uefa-teams-list");
+  clearQualifiedList("ofc-teams-list");
+
+  // Show loading state
+  showLoading("conmebol-teams-list");
+  showLoading("concacaf-teams-list");
+  showLoading("caf-teams-list");
+  showLoading("afc-teams-list");
+  showLoading("uefa-teams-list");
+  showLoading("ofc-teams-list");
+
+  // Perform the draw
+  const groups = Draw();
+
+  // Clear loading states
+  clearQualifiedList("conmebol-teams-list");
+  clearQualifiedList("concacaf-teams-list");
+  clearQualifiedList("caf-teams-list");
+  clearQualifiedList("afc-teams-list");
+  clearQualifiedList("uefa-teams-list");
+  clearQualifiedList("ofc-teams-list");
+
+  // Check if draw was successful
+  if (!groups) {
+    // Show error and restore qualified teams
+    renderQualifiedTeams(qualifiedTeamsAFC, "afc-teams-list");
+    renderQualifiedTeams(qualifiedTeamsCAF, "caf-teams-list");
+    renderQualifiedTeams(qualifiedTeamsCONMEBOL, "conmebol-teams-list");
+    renderQualifiedTeams(qualifiedTeamsCONCACAF, "concacaf-teams-list");
+    renderQualifiedTeams(qualifiedTeamsUEFA, "uefa-teams-list");
+    renderQualifiedTeams(qualifiedTeamsOFC, "ofc-teams-list");
+    return;
+  }
+
+  // Show redraw button, play world cup button and start over button
+  const resetButton = document.getElementById("reset-button");
+  const drawGroupsButton = document.getElementById("draw-groups-button");
+  const redrawGroupsButton = document.getElementById("redraw-groups-button");
+  const playWorldCupButton = document.getElementById("play-world-cup-button");
+  const startOverButton = document.getElementById("start-over-button");
+
+  if (resetButton) {
+    resetButton.style.display = "none";
+  }
+  if (drawGroupsButton) {
+    drawGroupsButton.style.display = "none";
+  }
+  if (redrawGroupsButton) {
+    redrawGroupsButton.style.display = "inline-block";
+  }
+  if (playWorldCupButton) {
+    playWorldCupButton.style.display = "inline-block";
+  }
+  if (startOverButton) {
+    startOverButton.style.display = "inline-block";
+  }
+
+  // Update the title
+  const mainTitle = document.getElementById("main-title");
+  if (mainTitle) {
+    mainTitle.textContent = "Re-Draw or Play the Cup";
+  }
+
+  // Render the groups
+  renderGroups(groups);
+}
+
+// Function to redraw groups without requalifying
+function redrawGroups() {
+  drawGroups();
+}
+
+// Function to play world cup groups (placeholder)
+function playWorldCupGroups() {
+  console.log();
+}
+
+// Function to start over from the beginning
+function startOver() {
+  // Reload the page to reset everything
+  window.location.reload();
 }
 
 // Initialize the app when DOM is loaded
@@ -654,4 +856,19 @@ document.addEventListener("DOMContentLoaded", () => {
   addResetButtonListener(resetAndQualify);
   // Add click event listener to the draw groups button
   addDrawGroupsButtonListener(drawGroups);
+  // Add click event listener to the redraw groups button
+  const redrawGroupsButton = document.getElementById("redraw-groups-button");
+  if (redrawGroupsButton) {
+    redrawGroupsButton.addEventListener("click", redrawGroups);
+  }
+  // Add click event listener to the play world cup button
+  const playWorldCupButton = document.getElementById("play-world-cup-button");
+  if (playWorldCupButton) {
+    playWorldCupButton.addEventListener("click", playWorldCupGroups);
+  }
+  // Add click event listener to the start over button
+  const startOverButton = document.getElementById("start-over-button");
+  if (startOverButton) {
+    startOverButton.addEventListener("click", startOver);
+  }
 });
