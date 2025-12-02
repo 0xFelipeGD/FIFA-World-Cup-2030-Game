@@ -1,7 +1,6 @@
 import {
   renderQualifiedTeams,
   showLoading,
-  showError,
   setButtonEnabled,
   addQualifyButtonListener,
   addResetButtonListener,
@@ -11,6 +10,10 @@ import {
   showQualifyButton,
   renderGroups,
 } from "./dom.js";
+
+// ============================================================================
+// DATA MANAGEMENT
+// ============================================================================
 
 async function loadDatabase() {
   const response = await fetch("../Database/database.json");
@@ -32,7 +35,11 @@ function processData(data) {
   return { AFC, CAF, CONCACAF, CONMEBOL, OFC, UEFA };
 }
 
-function League(teams) {
+// ============================================================================
+// GAME SIMULATION ENGINE
+// ============================================================================
+
+function simulateLeague(teams) {
   const standings = teams.map((team) => ({
     ...team,
     points: 0,
@@ -139,7 +146,7 @@ function League(teams) {
   return standings;
 }
 
-function Playoffs(team1, team2) {
+function simulatePlayoff(team1, team2) {
   const strengthDiff = team1.strength - team2.strength;
   let team1WinProb;
   let drawProb;
@@ -229,12 +236,16 @@ function Playoffs(team1, team2) {
   return Winner;
 }
 
-function CONMEBOLQualify(data) {
+// ============================================================================
+// CONFEDERATION QUALIFICATION PROCESSES
+// ============================================================================
+
+function qualifyCONMEBOL(data) {
   const Teams = processData(data).CONMEBOL;
   const qualifiedTeams = [];
 
   // League Phase
-  const leagueStandings = League(Teams);
+  const leagueStandings = simulateLeague(Teams);
   qualifiedTeams.push(...leagueStandings.slice(0, 4));
   console.log("The teams directly qualified from the league phase are:");
   console.table(qualifiedTeams);
@@ -245,21 +256,21 @@ function CONMEBOLQualify(data) {
   console.table(teamForPlayoffs);
 
   // Playin- Round 1
-  const qualified1 = Playoffs(teamForPlayoffs[0], teamForPlayoffs[1]);
+  const qualified1 = simulatePlayoff(teamForPlayoffs[0], teamForPlayoffs[1]);
   qualifiedTeams.push(qualified1);
   console.log(
     `The first Play-In spot goes to: ${qualified1.name}, congratulations!`
   );
 
   // Playin - Round 2
-  const qualified2 = Playoffs(teamForPlayoffs[2], teamForPlayoffs[3]);
+  const qualified2 = simulatePlayoff(teamForPlayoffs[2], teamForPlayoffs[3]);
   qualifiedTeams.push(qualified2);
   console.log(
     `The second Play-In spot goes to: ${qualified2.name}, congratulations!`
   );
 
   // Playin - Round 3
-  const qualified3 = Playoffs(teamForPlayoffs[4], teamForPlayoffs[5]);
+  const qualified3 = simulatePlayoff(teamForPlayoffs[4], teamForPlayoffs[5]);
   qualifiedTeams.push(qualified3);
   console.log(
     `The third Play-In spot goes to: ${qualified3.name}, congratulations!`
@@ -271,12 +282,12 @@ function CONMEBOLQualify(data) {
     qualified3 === teamForPlayoffs[4] ? teamForPlayoffs[5] : teamForPlayoffs[4],
   ];
 
-  const playinWinner = Playoffs(losers[0], losers[1]);
+  const playinWinner = simulatePlayoff(losers[0], losers[1]);
 
   // Final playin
   const finalOpponent =
     qualified1 === teamForPlayoffs[0] ? teamForPlayoffs[1] : teamForPlayoffs[0];
-  const qualified4 = Playoffs(finalOpponent, playinWinner);
+  const qualified4 = simulatePlayoff(finalOpponent, playinWinner);
   qualifiedTeams.push(qualified4);
   console.log(
     `The last Play-In spot goes to: ${qualified4.name}, congratulations!`
@@ -285,7 +296,7 @@ function CONMEBOLQualify(data) {
   return qualifiedTeams;
 }
 
-function CAFQualify(data) {
+function qualifyCAF(data) {
   const Teams = processData(data).CAF;
 
   console.log(`CAF teams before filtering: ${Teams.length}`);
@@ -304,7 +315,7 @@ function CAFQualify(data) {
   const TeamsC = filteredTeams.slice(32, 39);
 
   // League A
-  const leagueStandings = League(TeamsA);
+  const leagueStandings = simulateLeague(TeamsA);
   qualifiedTeams.push(...leagueStandings.slice(0, 5));
   console.log("The final classification are:");
   console.table(leagueStandings);
@@ -312,7 +323,7 @@ function CAFQualify(data) {
   console.table(qualifiedTeams);
 
   // League B
-  const leagueStandingsB = League(TeamsB);
+  const leagueStandingsB = simulateLeague(TeamsB);
   qualifiedTeams.push(...leagueStandingsB.slice(0, 4));
   console.log("The final classification are:");
   console.table(leagueStandingsB);
@@ -320,7 +331,7 @@ function CAFQualify(data) {
   console.table(qualifiedTeamsB);
 
   // League C
-  const leagueStandingsC = League(TeamsC);
+  const leagueStandingsC = simulateLeague(TeamsC);
   qualifiedTeams.push(...leagueStandingsC.slice(0, 2));
   console.log("The final classification are:");
   console.table(leagueStandingsC);
@@ -330,7 +341,7 @@ function CAFQualify(data) {
   return qualifiedTeams;
 }
 
-function CONCACAFQualify(data) {
+function qualifyCONCACAF(data) {
   const Teams = processData(data).CONCACAF;
   const qualifiedTeams = [];
   const qualifiedTeamsB = [];
@@ -339,7 +350,7 @@ function CONCACAFQualify(data) {
   const TeamsB = Teams.slice(11, 20);
 
   // League A
-  const leagueStandings = League(TeamsA);
+  const leagueStandings = simulateLeague(TeamsA);
   qualifiedTeams.push(...leagueStandings.slice(0, 6));
   console.log("The final classification are:");
   console.table(leagueStandings);
@@ -347,7 +358,7 @@ function CONCACAFQualify(data) {
   console.table(qualifiedTeams);
 
   // League B
-  const leagueStandingsB = League(TeamsB);
+  const leagueStandingsB = simulateLeague(TeamsB);
   qualifiedTeamsB.push(...leagueStandingsB.slice(0, 4));
   console.log("The final classification are:");
   console.table(leagueStandingsB);
@@ -355,14 +366,14 @@ function CONCACAFQualify(data) {
   console.table(qualifiedTeamsB);
 
   // Playoff- Round 1
-  const qualified1 = Playoffs(qualifiedTeamsB[0], qualifiedTeamsB[3]);
+  const qualified1 = simulatePlayoff(qualifiedTeamsB[0], qualifiedTeamsB[3]);
   qualifiedTeams.push(qualified1);
   console.log(
     `The first Play-off spot goes to: ${qualified1.name}, congratulations!`
   );
 
   // Playin - Round 2
-  const qualified2 = Playoffs(qualifiedTeamsB[1], qualifiedTeamsB[2]);
+  const qualified2 = simulatePlayoff(qualifiedTeamsB[1], qualifiedTeamsB[2]);
   qualifiedTeams.push(qualified2);
   console.log(
     `The second Play-off spot goes to: ${qualified2.name}, congratulations!`
@@ -371,7 +382,7 @@ function CONCACAFQualify(data) {
   return qualifiedTeams;
 }
 
-function AFCQualify(data) {
+function qualifyAFC(data) {
   const Teams = processData(data).AFC;
   const qualifiedTeams = [];
   const qualifiedTeamsB = [];
@@ -382,7 +393,7 @@ function AFCQualify(data) {
   const TeamsC = Teams.slice(32, 39);
 
   // League A
-  const leagueStandings = League(TeamsA);
+  const leagueStandings = simulateLeague(TeamsA);
   qualifiedTeams.push(...leagueStandings.slice(0, 6));
   console.log("The final classification are:");
   console.table(leagueStandings);
@@ -390,7 +401,7 @@ function AFCQualify(data) {
   console.table(qualifiedTeams);
 
   // League B
-  const leagueStandingsB = League(TeamsB);
+  const leagueStandingsB = simulateLeague(TeamsB);
   qualifiedTeams.push(...leagueStandingsB.slice(0, 4));
   console.log("The final classification are:");
   console.table(leagueStandingsB);
@@ -398,7 +409,7 @@ function AFCQualify(data) {
   console.table(qualifiedTeamsB);
 
   // League C
-  const leagueStandingsC = League(TeamsC);
+  const leagueStandingsC = simulateLeague(TeamsC);
   qualifiedTeams.push(...leagueStandingsC.slice(0, 2));
   console.log("The final classification are:");
   console.table(leagueStandingsC);
@@ -408,7 +419,7 @@ function AFCQualify(data) {
   return qualifiedTeams;
 }
 
-function UEFAQualify(data) {
+function qualifyUEFA(data) {
   const Teams = processData(data).UEFA;
 
   console.log(`UEFA teams before filtering: ${Teams.length}`);
@@ -431,7 +442,7 @@ function UEFAQualify(data) {
   const TeamsC = filteredTeams.slice(36, 51);
 
   // League A
-  const leagueStandings = League(TeamsA);
+  const leagueStandings = simulateLeague(TeamsA);
   qualifiedTeams.push(...leagueStandings.slice(0, 8));
   console.log("The final classification are:");
   console.table(leagueStandings);
@@ -442,7 +453,7 @@ function UEFAQualify(data) {
   console.table(playoffsATeams);
 
   // League B
-  const leagueStandingsB = League(TeamsB);
+  const leagueStandingsB = simulateLeague(TeamsB);
   qualifiedTeams.push(...leagueStandingsB.slice(0, 6));
   qualifiedTeamsB.push(...leagueStandingsB.slice(0, 6));
   console.log("The final classification are:");
@@ -454,7 +465,7 @@ function UEFAQualify(data) {
   console.table(playoffsBTeams);
 
   // League C
-  const leagueStandingsC = League(TeamsC);
+  const leagueStandingsC = simulateLeague(TeamsC);
   qualifiedTeams.push(...leagueStandingsC.slice(0, 2));
   qualifiedTeamsC.push(...leagueStandingsC.slice(0, 2));
   console.log("The final classification are:");
@@ -471,7 +482,7 @@ function UEFAQualify(data) {
   console.table(playoffTeams);
 
   //Playoffs League
-  const leagueStandingsD = League(playoffTeams);
+  const leagueStandingsD = simulateLeague(playoffTeams);
   qualifiedTeamsforPlayoffs.push(...leagueStandingsD.slice(0, 9));
   console.log("The final classification are:");
   console.table(leagueStandingsD);
@@ -479,7 +490,7 @@ function UEFAQualify(data) {
   console.table(qualifiedTeamsforPlayoffs);
 
   // Playin- Round 1
-  const qualified1 = Playoffs(
+  const qualified1 = simulatePlayoff(
     qualifiedTeamsforPlayoffs[0],
     qualifiedTeamsforPlayoffs[8]
   );
@@ -489,7 +500,7 @@ function UEFAQualify(data) {
   );
 
   // Playin - Round 2
-  const qualified2 = Playoffs(
+  const qualified2 = simulatePlayoff(
     qualifiedTeamsforPlayoffs[1],
     qualifiedTeamsforPlayoffs[7]
   );
@@ -499,7 +510,7 @@ function UEFAQualify(data) {
   );
 
   // Playin - Round 3
-  const qualified3 = Playoffs(
+  const qualified3 = simulatePlayoff(
     qualifiedTeamsforPlayoffs[2],
     qualifiedTeamsforPlayoffs[6]
   );
@@ -509,7 +520,7 @@ function UEFAQualify(data) {
   );
 
   // Playin - Round 4
-  const qualified4 = Playoffs(
+  const qualified4 = simulatePlayoff(
     qualifiedTeamsforPlayoffs[3],
     qualifiedTeamsforPlayoffs[5]
   );
@@ -521,16 +532,7 @@ function UEFAQualify(data) {
   return qualifiedTeams;
 }
 
-// Global variables to store qualified teams
-let qualifiedTeamsCONMEBOL = [];
-let qualifiedTeamsCONCACAF = [];
-let qualifiedTeamsUEFA = [];
-let qualifiedTeamsCAF = [];
-let qualifiedTeamsAFC = [];
-let qualifiedTeamsOFC = [];
-let currentGroups = []; // Store the current drawn groups
-
-function OFCQualify(data) {
+function qualifyOFC(data) {
   const Teams = processData(data).OFC;
   const qualifiedTeams = [];
   const qualifiedweekTeams = [];
@@ -541,7 +543,7 @@ function OFCQualify(data) {
   const TeamsW = Teams.slice(6, 11);
 
   // League W
-  const leagueStandingsW = League(TeamsW);
+  const leagueStandingsW = simulateLeague(TeamsW);
   qualifiedweekTeams.push(...leagueStandingsW.slice(0, 2));
   console.log("The final classification are:");
   console.table(leagueStandingsW);
@@ -562,7 +564,7 @@ function OFCQualify(data) {
   console.table(GroupB);
 
   // League A
-  const leagueStandingsA = League(GroupA);
+  const leagueStandingsA = simulateLeague(GroupA);
   qualifiedATeams.push(...leagueStandingsA.slice(0, 2));
   console.log("The final classification are:");
   console.table(leagueStandingsA);
@@ -570,7 +572,7 @@ function OFCQualify(data) {
   console.table(qualifiedATeams);
 
   // League B
-  const leagueStandingsB = League(GroupB);
+  const leagueStandingsB = simulateLeague(GroupB);
   qualifiedBTeams.push(...leagueStandingsB.slice(0, 2));
   console.log("The final classification are:");
   console.table(leagueStandingsB);
@@ -578,14 +580,14 @@ function OFCQualify(data) {
   console.table(qualifiedBTeams);
 
   //Play in 1
-  const qualified1 = Playoffs(qualifiedATeams[0], qualifiedBTeams[1]);
+  const qualified1 = simulatePlayoff(qualifiedATeams[0], qualifiedBTeams[1]);
   qualifiedTeams.push(qualified1);
   console.log(
     `The first Play-In spot goes to: ${qualified1.name}, congratulations!`
   );
 
   //Play in 2
-  const qualified2 = Playoffs(qualifiedATeams[1], qualifiedBTeams[0]);
+  const qualified2 = simulatePlayoff(qualifiedATeams[1], qualifiedBTeams[0]);
   qualifiedTeams.push(qualified2);
   console.log(
     `The second Play-In spot goes to: ${qualified2.name}, congratulations!`
@@ -594,7 +596,22 @@ function OFCQualify(data) {
   return qualifiedTeams;
 }
 
-// Run and Render QUalifications
+// ============================================================================
+// GLOBAL STATE
+// ============================================================================
+
+let qualifiedTeamsCONMEBOL = [];
+let qualifiedTeamsCONCACAF = [];
+let qualifiedTeamsUEFA = [];
+let qualifiedTeamsCAF = [];
+let qualifiedTeamsAFC = [];
+let qualifiedTeamsOFC = [];
+let currentGroups = [];
+
+// ============================================================================
+// QUALIFICATION WORKFLOW
+// ============================================================================
+
 async function runQualificationProcess() {
   // Prepare UI
   setButtonEnabled(false);
@@ -615,12 +632,12 @@ async function runQualificationProcess() {
   const data = await loadDatabase();
 
   // Run qualification
-  qualifiedTeamsCONMEBOL = CONMEBOLQualify(data);
-  qualifiedTeamsCONCACAF = CONCACAFQualify(data);
-  qualifiedTeamsUEFA = UEFAQualify(data);
-  qualifiedTeamsCAF = CAFQualify(data);
-  qualifiedTeamsAFC = AFCQualify(data);
-  qualifiedTeamsOFC = OFCQualify(data);
+  qualifiedTeamsCONMEBOL = qualifyCONMEBOL(data);
+  qualifiedTeamsCONCACAF = qualifyCONCACAF(data);
+  qualifiedTeamsUEFA = qualifyUEFA(data);
+  qualifiedTeamsCAF = qualifyCAF(data);
+  qualifiedTeamsAFC = qualifyAFC(data);
+  qualifiedTeamsOFC = qualifyOFC(data);
 
   // Render results in the DOM
   clearQualifiedList("conmebol-teams-list");
@@ -642,11 +659,10 @@ async function runQualificationProcess() {
   // Update the title
   const mainTitle = document.getElementById("main-title");
   if (mainTitle) {
-    mainTitle.textContent = "Press to Re-Qualify teams or make the Draw";
+    mainTitle.textContent = "Re-Qualify teams or make the Draw";
   }
 }
 
-// Function to reset and run qualification again
 function resetAndQualify() {
   // Reset the title
   const mainTitle = document.getElementById("main-title");
@@ -658,8 +674,11 @@ function resetAndQualify() {
   runQualificationProcess();
 }
 
-// Function to Grab and processes qualified Teams
-function QualifiedTeamsProcess() {
+// ============================================================================
+// WORLD CUP DRAW SYSTEM
+// ============================================================================
+
+function processQualifiedTeams() {
   const QualifiedTeams = [];
   QualifiedTeams.push(
     ...qualifiedTeamsCONMEBOL,
@@ -691,7 +710,7 @@ function QualifiedTeamsProcess() {
   return Pots;
 }
 
-function Draw() {
+function performDraw() {
   const maxAttempts = 200;
   let attempt = 0;
 
@@ -743,7 +762,7 @@ function Draw() {
       `Tentativa ${attempt}: Anfitriões colocados nos grupos A, B, C`
     );
 
-    const Pots = QualifiedTeamsProcess();
+    const Pots = processQualifiedTeams();
 
     let drawFailed = false;
 
@@ -839,7 +858,6 @@ function Draw() {
   return null;
 }
 
-// Function to draw groups
 function drawGroups() {
   // Clear all confederation lists
   clearQualifiedList("conmebol-teams-list");
@@ -858,7 +876,7 @@ function drawGroups() {
   showLoading("ofc-teams-list");
 
   // Perform the draw
-  const groups = Draw();
+  const groups = performDraw();
 
   // Clear loading states
   clearQualifiedList("conmebol-teams-list");
@@ -912,12 +930,14 @@ function drawGroups() {
   renderGroups(groups);
 }
 
-// Function to redraw groups without requalifying
 function redrawGroups() {
   drawGroups();
 }
 
-// Function to play world cup groups (placeholder)
+// ============================================================================
+// WORLD CUP GROUP STAGE SIMULATION
+// ============================================================================
+
 function playWorldCupGroups() {
   // Check if we have groups drawn
   if (!currentGroups || currentGroups.length === 0) {
@@ -932,7 +952,64 @@ function playWorldCupGroups() {
 
   // Run league simulation for each group
   const updatedGroups = groupsToPlay.map((group) => {
-    return League(group);
+    return simulateLeague(group);
+  });
+
+  // Store the updated groups
+  currentGroups = updatedGroups;
+
+  // Render the updated groups with points
+  renderGroups(updatedGroups);
+
+  // Hide the "Play World Cup Groups" button and show "Initiate Playoffs" button
+  const playWorldCupButton = document.getElementById("play-world-cup-button");
+  const initiatePlayoffsButton = document.getElementById(
+    "initiate-playoffs-button"
+  );
+  const redrawGroupsButton = document.getElementById("redraw-groups-button");
+
+  if (playWorldCupButton) {
+    playWorldCupButton.style.display = "none";
+  }
+  if (initiatePlayoffsButton) {
+    initiatePlayoffsButton.style.display = "inline-block";
+  }
+
+  // Change the redraw button function to replay groups
+  if (redrawGroupsButton) {
+    // Remove old event listener by cloning the button
+    const newRedrawButton = redrawGroupsButton.cloneNode(true);
+    redrawGroupsButton.parentNode.replaceChild(
+      newRedrawButton,
+      redrawGroupsButton
+    );
+    // Add new event listener to replay groups
+    newRedrawButton.addEventListener("click", replayWorldCupGroups);
+  }
+
+  // Update the title
+  const mainTitle = document.getElementById("main-title");
+  if (mainTitle) {
+    mainTitle.textContent = "Groups Complete - Ready for Playoffs";
+  }
+}
+
+function replayWorldCupGroups() {
+  // Check if we have groups drawn
+  if (!currentGroups || currentGroups.length === 0) {
+    alert("Erro: Nenhum grupo sorteado. Por favor, faça o sorteio primeiro.");
+    return;
+  }
+
+  // Create a deep copy of current groups to avoid mutating the original
+  // Reset points for all teams
+  const groupsToPlay = currentGroups.map((group) =>
+    group.map((team) => ({ ...team, points: 0 }))
+  );
+
+  // Run league simulation for each group
+  const updatedGroups = groupsToPlay.map((group) => {
+    return simulateLeague(group);
   });
 
   // Store the updated groups
@@ -942,7 +1019,20 @@ function playWorldCupGroups() {
   renderGroups(updatedGroups);
 }
 
-// Initialize the app when DOM is loaded
+// ============================================================================
+// KNOCKOUT STAGE (PLAYOFFS)
+// ============================================================================
+
+function initiatePlayoffs() {
+  const firsts = currentGroups.map((group) => group[0]);
+  const seconds = currentGroups.map((group) => group[1]);
+  console.log(firsts);
+}
+
+// ============================================================================
+// APPLICATION INITIALIZATION
+// ============================================================================
+
 document.addEventListener("DOMContentLoaded", () => {
   // Add click event listener to the qualify button
   addQualifyButtonListener(runQualificationProcess);
@@ -959,5 +1049,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const playWorldCupButton = document.getElementById("play-world-cup-button");
   if (playWorldCupButton) {
     playWorldCupButton.addEventListener("click", playWorldCupGroups);
+  }
+  // Add click event listener to the initiate playoffs button
+  const initiatePlayoffsButton = document.getElementById(
+    "initiate-playoffs-button"
+  );
+  if (initiatePlayoffsButton) {
+    initiatePlayoffsButton.addEventListener("click", initiatePlayoffs);
   }
 });

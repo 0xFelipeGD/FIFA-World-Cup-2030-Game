@@ -179,7 +179,8 @@ button {
 /* Primary action buttons (Blue theme) */
 #qualify-button,
 #draw-groups-button,
-#play-world-cup-button {
+#play-world-cup-button,
+#initiate-playoffs-button {
   padding: 14px 40px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -198,7 +199,8 @@ button {
 
 #qualify-button::before,
 #draw-groups-button::before,
-#play-world-cup-button::before {
+#play-world-cup-button::before,
+#initiate-playoffs-button::before {
   content: "";
   position: absolute;
   top: 0;
@@ -216,13 +218,15 @@ button {
 
 #qualify-button:hover::before,
 #draw-groups-button:hover::before,
-#play-world-cup-button:hover::before {
+#play-world-cup-button:hover::before,
+#initiate-playoffs-button:hover::before {
   left: 100%;
 }
 
 #qualify-button:hover:not(:disabled),
 #draw-groups-button:hover:not(:disabled),
-#play-world-cup-button:hover:not(:disabled) {
+#play-world-cup-button:hover:not(:disabled),
+#initiate-playoffs-button:hover:not(:disabled) {
   background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
   border-color: rgba(59, 130, 246, 0.6);
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
@@ -231,7 +235,8 @@ button {
 
 #qualify-button:active:not(:disabled),
 #draw-groups-button:active:not(:disabled),
-#play-world-cup-button:active:not(:disabled) {
+#play-world-cup-button:active:not(:disabled),
+#initiate-playoffs-button:active:not(:disabled) {
   transform: translateY(0px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
@@ -329,7 +334,8 @@ button:disabled {
 
   #qualify-button,
   #draw-groups-button,
-  #play-world-cup-button {
+  #play-world-cup-button,
+  #initiate-playoffs-button {
     padding: 12px 24px;
     font-size: 0.85rem;
     letter-spacing: 0.5px;
