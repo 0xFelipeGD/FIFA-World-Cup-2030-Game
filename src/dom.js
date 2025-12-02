@@ -31,11 +31,11 @@ export function renderTeam(team, position, listId = "qualifying-teams-list") {
     if (position <= 10) {
       qualificationMethod = "Qualified via League A";
       isDirectQualification = true;
-    } else if (position <= 16) {
+    } else if (position <= 14) {
       qualificationMethod = "Qualified via League B";
-    } else if (position <= 18) {
+    } else if (position <= 16) {
       qualificationMethod = "Qualified via League C";
-    } else if (position <= 22) {
+    } else if (position <= 20) {
       qualificationMethod = "Qualified via Play-offs";
     }
   } else if (confederation === "CONCACAF") {
@@ -51,9 +51,9 @@ export function renderTeam(team, position, listId = "qualifying-teams-list") {
     if (position <= 6) {
       qualificationMethod = "Qualified via League A";
       isDirectQualification = true;
-    } else if (position <= 10) {
+    } else if (position <= 9) {
       qualificationMethod = "Qualified via League B";
-    } else if (position <= 12) {
+    } else if (position <= 11) {
       qualificationMethod = "Qualified via League C";
     }
   } else {

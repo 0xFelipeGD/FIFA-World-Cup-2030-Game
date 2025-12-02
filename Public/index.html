@@ -9,34 +9,99 @@
   </head>
   <body>
     <header>
-      <div class="header-content"></div>
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/a/aa/FIFA_logo_without_slogan.svg"
-        alt="FIFA Logo"
-        width="300"
-      />
-      <h1>World Cup 2030</h1>
-      <p>CONMEBOL Qualifiers</p>
+      <div class="header-content">
+        <div class="logo-container">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/a/aa/FIFA_logo_without_slogan.svg"
+            alt="FIFA Logo"
+            class="fifa-logo"
+            width="200"
+          />
+        </div>
+        <div class="world-cup-logo">
+          <h1>FIFA WORLD CUP 2030™</h1>
+          <div class="host-nations">
+            <div class="host-flag-container">
+              <img
+                src="https://media.api-sports.io/flags/pt.svg"
+                alt="Portugal"
+                class="host-flag"
+                title="Portugal"
+              />
+              <img
+                src="https://media.api-sports.io/flags/es.svg"
+                alt="Spain"
+                class="host-flag"
+                title="Spain"
+              />
+              <img
+                src="https://media.api-sports.io/flags/ma.svg"
+                alt="Morocco"
+                class="host-flag"
+                title="Morocco"
+              />
+            </div>
+            <p class="host-text">PORTUGAL • SPAIN • MOROCCO</p>
+          </div>
+        </div>
       </div>
     </header>
     <div id="qualifiers">
       <div id="interactions">
-      <h2 id="main-title">Press to Qualify teams</h2>
-      <div class="button-group">
-        <button id="qualify-button">Start Qualification</button>
-        <button id="reset-button" class="icon-button" style="display: none;" title="Run qualification again">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-          </svg>
-        </button>
-        <button id="draw-groups-button" style="display: none;">Draw Groups</button>
-        <button id="redraw-groups-button" class="icon-button" style="display: none;" title="Redraw groups">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-          </svg>
-        </button>
-        <button id="play-world-cup-button" style="display: none;">Play World Cup Groups</button>
-      </div>
+        <h2 id="main-title">Press to Qualify teams</h2>
+        <div class="button-group">
+          <button id="qualify-button">Start Qualification</button>
+          <button
+            id="reset-button"
+            class="icon-button"
+            style="display: none"
+            title="Run qualification again"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"
+              />
+            </svg>
+          </button>
+          <button id="draw-groups-button" style="display: none">
+            Draw Groups
+          </button>
+          <button
+            id="redraw-groups-button"
+            class="icon-button"
+            style="display: none"
+            title="Redraw groups"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"
+              />
+            </svg>
+          </button>
+          <button id="play-world-cup-button" style="display: none">
+            Play World Cup Groups
+          </button>
+        </div>
       </div>
 
       <div class="sections-grid">
@@ -69,8 +134,6 @@
           <h3 class="section-title">OFC</h3>
           <ul id="ofc-teams-list" class="teams-list"></ul>
         </section>
-    
-
       </div>
     </div>
   </body>

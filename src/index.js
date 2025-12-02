@@ -287,17 +287,25 @@ function CONMEBOLQualify(data) {
 
 function CAFQualify(data) {
   const Teams = processData(data).CAF;
+
+  console.log(`CAF teams before filtering: ${Teams.length}`);
+
+  // Filter out host nation (Morocco)
+  const filteredTeams = Teams.filter((team) => team.name !== "Morocco");
+
+  console.log(`CAF teams after filtering: ${filteredTeams.length}`);
+
   const qualifiedTeams = [];
   const qualifiedTeamsB = [];
   const qualifiedTeamsC = [];
-  Teams.sort((a, b) => b.strength - a.strength);
-  const TeamsA = Teams.slice(0, 16);
-  const TeamsB = Teams.slice(16, 32);
-  const TeamsC = Teams.slice(32, 39);
+  filteredTeams.sort((a, b) => b.strength - a.strength);
+  const TeamsA = filteredTeams.slice(0, 16);
+  const TeamsB = filteredTeams.slice(16, 32);
+  const TeamsC = filteredTeams.slice(32, 39);
 
   // League A
   const leagueStandings = League(TeamsA);
-  qualifiedTeams.push(...leagueStandings.slice(0, 6));
+  qualifiedTeams.push(...leagueStandings.slice(0, 5));
   console.log("The final classification are:");
   console.table(leagueStandings);
   console.log("The teams directly qualified from the league A are:");
@@ -402,25 +410,35 @@ function AFCQualify(data) {
 
 function UEFAQualify(data) {
   const Teams = processData(data).UEFA;
+
+  console.log(`UEFA teams before filtering: ${Teams.length}`);
+
+  // Filter out host nations (Portugal and Spain)
+  const filteredTeams = Teams.filter(
+    (team) => team.name !== "Portugal" && team.name !== "Spain"
+  );
+
+  console.log(`UEFA teams after filtering: ${filteredTeams.length}`);
+
   const qualifiedTeams = [];
   const qualifiedTeamsB = [];
   const qualifiedTeamsC = [];
   const qualifiedTeamsforPlayoffs = [];
   const playoffTeams = [];
-  Teams.sort((a, b) => b.strength - a.strength);
-  const TeamsA = Teams.slice(0, 16);
-  const TeamsB = Teams.slice(16, 36);
-  const TeamsC = Teams.slice(36, 53);
+  filteredTeams.sort((a, b) => b.strength - a.strength);
+  const TeamsA = filteredTeams.slice(0, 16);
+  const TeamsB = filteredTeams.slice(16, 36);
+  const TeamsC = filteredTeams.slice(36, 51);
 
   // League A
   const leagueStandings = League(TeamsA);
-  qualifiedTeams.push(...leagueStandings.slice(0, 10));
+  qualifiedTeams.push(...leagueStandings.slice(0, 8));
   console.log("The final classification are:");
   console.table(leagueStandings);
   console.log("The teams directly qualified from the league A are:");
   console.table(qualifiedTeams);
   console.log("The teams that dont make the cut");
-  const playoffsATeams = leagueStandings.slice(10, 16);
+  const playoffsATeams = leagueStandings.slice(8, 14);
   console.table(playoffsATeams);
 
   // League B
@@ -655,10 +673,18 @@ function QualifiedTeamsProcess() {
   QualifiedTeams.forEach((team) => (team.points = 0));
   QualifiedTeams.sort((a, b) => b.strength - a.strength);
 
-  const A = QualifiedTeams.slice(0, 16);
-  const B = QualifiedTeams.slice(16, 32);
-  const C = QualifiedTeams.slice(32, 48);
-  const D = QualifiedTeams.slice(48, 64);
+  console.log(`Total qualified teams: ${QualifiedTeams.length}`);
+
+  // Pot A will have 13 teams (16 - 3 host nations)
+  const A = QualifiedTeams.slice(0, 13);
+  const B = QualifiedTeams.slice(13, 29); // 16 teams
+  const C = QualifiedTeams.slice(29, 45); // 16 teams
+  const D = QualifiedTeams.slice(45, 61); // 16 teams
+
+  console.log(
+    `Pot A: ${A.length} teams, Pot B: ${B.length} teams, Pot C: ${C.length} teams, Pot D: ${D.length} teams`
+  );
+
   const Pots = [];
   Pots.push(A, B, C, D);
 
@@ -669,11 +695,54 @@ function Draw() {
   const maxAttempts = 200;
   let attempt = 0;
 
+  // Define host nations (always in Groups A, B, and C)
+  const hostNations = [
+    {
+      name: "Portugal",
+      code: "PT",
+      flag: "https://media.api-sports.io/flags/pt.svg",
+      confederation: "UEFA",
+      strength: 87,
+      points: 0,
+    },
+    {
+      name: "Spain",
+      code: "ES",
+      flag: "https://media.api-sports.io/flags/es.svg",
+      confederation: "UEFA",
+      strength: 89,
+      points: 0,
+    },
+    {
+      name: "Morocco",
+      code: "MA",
+      flag: "https://media.api-sports.io/flags/ma.svg",
+      confederation: "CAF",
+      strength: 76,
+      points: 0,
+    },
+  ];
+
   while (attempt < maxAttempts) {
     attempt++;
 
     const groups = Array.from({ length: 16 }, () => []);
     const confederationCount = groups.map(() => ({}));
+
+    // Place host nations in Groups A, B, and C
+    groups[0].push(hostNations[0]); // Portugal in Group A
+    groups[1].push(hostNations[1]); // Spain in Group B
+    groups[2].push(hostNations[2]); // Morocco in Group C
+
+    // Initialize confederation counts for host nations
+    confederationCount[0]["UEFA"] = 1; // Portugal
+    confederationCount[1]["UEFA"] = 1; // Spain
+    confederationCount[2]["CAF"] = 1; // Morocco
+
+    console.log(
+      `Tentativa ${attempt}: Anfitriões colocados nos grupos A, B, C`
+    );
+
     const Pots = QualifiedTeamsProcess();
 
     let drawFailed = false;
@@ -693,7 +762,18 @@ function Draw() {
         let placed = false;
 
         for (const groupIndex of groupIndices) {
-          if (groups[groupIndex].length > potIndex) continue; // This group already has a team from this pot
+          // For Pot A (potIndex 0), skip groups 0, 1, 2 (A, B, C) as they already have host nations
+          if (potIndex === 0 && groupIndex < 3) continue;
+
+          // Check if this group already has a team from this pot
+          // Groups A, B, C already have a team from "pot 0" (host nations), so they need teams from pot 1, 2, 3
+          // Other groups need teams from pot 0, 1, 2, 3
+          const currentTeamCount = groups[groupIndex].length;
+
+          // For groups A, B, C: they already have 1 team, so at potIndex 0 they should still have 1, at potIndex 1 they should have 2, etc.
+          // For other groups: at potIndex 0 they should have 1, at potIndex 1 they should have 2, etc.
+          const expectedTeamsAfterThisPot = potIndex + 1;
+          if (currentTeamCount >= expectedTeamsAfterThisPot) continue;
 
           const confCount = confederationCount[groupIndex];
           const confederation = team.confederation;
