@@ -510,6 +510,7 @@ let qualifiedTeamsUEFA = [];
 let qualifiedTeamsCAF = [];
 let qualifiedTeamsAFC = [];
 let qualifiedTeamsOFC = [];
+let currentGroups = []; // Store the current drawn groups
 
 function OFCQualify(data) {
   const Teams = processData(data).OFC;
@@ -799,12 +800,11 @@ function drawGroups() {
     return;
   }
 
-  // Show redraw button, play world cup button and start over button
+  // Show redraw button and play world cup button
   const resetButton = document.getElementById("reset-button");
   const drawGroupsButton = document.getElementById("draw-groups-button");
   const redrawGroupsButton = document.getElementById("redraw-groups-button");
   const playWorldCupButton = document.getElementById("play-world-cup-button");
-  const startOverButton = document.getElementById("start-over-button");
 
   if (resetButton) {
     resetButton.style.display = "none";
@@ -818,15 +818,15 @@ function drawGroups() {
   if (playWorldCupButton) {
     playWorldCupButton.style.display = "inline-block";
   }
-  if (startOverButton) {
-    startOverButton.style.display = "inline-block";
-  }
 
   // Update the title
   const mainTitle = document.getElementById("main-title");
   if (mainTitle) {
     mainTitle.textContent = "Re-Draw or Play the Cup";
   }
+
+  // Store the groups globally
+  currentGroups = groups;
 
   // Render the groups
   renderGroups(groups);
@@ -839,13 +839,27 @@ function redrawGroups() {
 
 // Function to play world cup groups (placeholder)
 function playWorldCupGroups() {
-  console.log();
-}
+  // Check if we have groups drawn
+  if (!currentGroups || currentGroups.length === 0) {
+    alert("Erro: Nenhum grupo sorteado. Por favor, faça o sorteio primeiro.");
+    return;
+  }
 
-// Function to start over from the beginning
-function startOver() {
-  // Reload the page to reset everything
-  window.location.reload();
+  // Create a deep copy of current groups to avoid mutating the original
+  const groupsToPlay = currentGroups.map((group) =>
+    group.map((team) => ({ ...team, points: 0 }))
+  );
+
+  // Run league simulation for each group
+  const updatedGroups = groupsToPlay.map((group) => {
+    return League(group);
+  });
+
+  // Store the updated groups
+  currentGroups = updatedGroups;
+
+  // Render the updated groups with points
+  renderGroups(updatedGroups);
 }
 
 // Initialize the app when DOM is loaded
@@ -865,10 +879,5 @@ document.addEventListener("DOMContentLoaded", () => {
   const playWorldCupButton = document.getElementById("play-world-cup-button");
   if (playWorldCupButton) {
     playWorldCupButton.addEventListener("click", playWorldCupGroups);
-  }
-  // Add click event listener to the start over button
-  const startOverButton = document.getElementById("start-over-button");
-  if (startOverButton) {
-    startOverButton.addEventListener("click", startOver);
   }
 });

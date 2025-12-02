@@ -251,6 +251,11 @@ export function renderGroups(groups) {
       const listItem = document.createElement("li");
       listItem.className = "team-item";
 
+      // Add qualifier class for top 2 teams
+      if (teamIndex < 2) {
+        listItem.classList.add("qualified-team");
+      }
+
       listItem.innerHTML = `
         <div class="team-card">
           <span class="team-position">${teamIndex + 1}</span>
