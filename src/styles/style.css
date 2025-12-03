@@ -160,6 +160,26 @@ h2 {
   letter-spacing: -0.3px;
 }
 
+/* Utility Classes */
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block;
+}
+
+/* Controls Section */
+.controls-section {
+  margin-bottom: 30px;
+}
+
+/* Content Container */
+.content-container {
+  position: relative;
+  min-height: 400px;
+}
+
 /* Button styles */
 .button-group {
   display: flex;
@@ -177,10 +197,7 @@ button {
 }
 
 /* Primary action buttons (Blue theme) */
-#qualify-button,
-#draw-groups-button,
-#play-world-cup-button,
-#initiate-playoffs-button {
+.btn-primary {
   padding: 14px 40px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -197,10 +214,7 @@ button {
   overflow: hidden;
 }
 
-#qualify-button::before,
-#draw-groups-button::before,
-#play-world-cup-button::before,
-#initiate-playoffs-button::before {
+.btn-primary::before {
   content: "";
   position: absolute;
   top: 0;
@@ -216,34 +230,24 @@ button {
   transition: left 0.6s;
 }
 
-#qualify-button:hover::before,
-#draw-groups-button:hover::before,
-#play-world-cup-button:hover::before,
-#initiate-playoffs-button:hover::before {
+.btn-primary:hover::before {
   left: 100%;
 }
 
-#qualify-button:hover:not(:disabled),
-#draw-groups-button:hover:not(:disabled),
-#play-world-cup-button:hover:not(:disabled),
-#initiate-playoffs-button:hover:not(:disabled) {
+.btn-primary:hover:not(:disabled) {
   background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
   border-color: rgba(59, 130, 246, 0.6);
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
   transform: translateY(-2px);
 }
 
-#qualify-button:active:not(:disabled),
-#draw-groups-button:active:not(:disabled),
-#play-world-cup-button:active:not(:disabled),
-#initiate-playoffs-button:active:not(:disabled) {
+.btn-primary:active:not(:disabled) {
   transform: translateY(0px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 /* Icon buttons (Green theme for reset/redraw) */
-#reset-button.icon-button,
-#redraw-groups-button.icon-button {
+.btn-icon {
   padding: 11px;
   width: 44px;
   height: 44px;
@@ -260,8 +264,7 @@ button {
   overflow: hidden;
 }
 
-#reset-button.icon-button::before,
-#redraw-groups-button.icon-button::before {
+.btn-icon::before {
   content: "";
   position: absolute;
   top: 0;
@@ -277,20 +280,17 @@ button {
   transition: left 0.6s;
 }
 
-#reset-button.icon-button:hover::before,
-#redraw-groups-button.icon-button:hover::before {
+.btn-icon:hover::before {
   left: 100%;
 }
 
-#reset-button.icon-button svg,
-#redraw-groups-button.icon-button svg {
+.btn-icon svg {
   animation: none;
   transition: transform 0.3s ease;
   color: #ffffff;
 }
 
-#reset-button.icon-button:hover svg,
-#redraw-groups-button.icon-button:hover svg {
+.btn-icon:hover svg {
   animation: rotate 0.6s ease-in-out;
 }
 
@@ -303,16 +303,14 @@ button {
   }
 }
 
-#reset-button.icon-button:hover:not(:disabled),
-#redraw-groups-button.icon-button:hover:not(:disabled) {
+.btn-icon:hover:not(:disabled) {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   border-color: rgba(16, 185, 129, 0.6);
   box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
   transform: translateY(-2px);
 }
 
-#reset-button.icon-button:active:not(:disabled),
-#redraw-groups-button.icon-button:active:not(:disabled) {
+.btn-icon:active:not(:disabled) {
   transform: translateY(0px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
@@ -332,17 +330,13 @@ button:disabled {
     padding: 0 10px;
   }
 
-  #qualify-button,
-  #draw-groups-button,
-  #play-world-cup-button,
-  #initiate-playoffs-button {
+  .btn-primary {
     padding: 12px 24px;
     font-size: 0.85rem;
     letter-spacing: 0.5px;
   }
 
-  #reset-button.icon-button,
-  #redraw-groups-button.icon-button {
+  .btn-icon {
     width: 40px;
     height: 40px;
     padding: 10px;

@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "ES6",
+    "target": "ES2017",
+    "lib": ["ES2017", "DOM"],
+    "checkJs": false
+  },
+  "exclude": ["node_modules", "tests"],
+  "include": ["src/**/*", "public/**/*"]
+}

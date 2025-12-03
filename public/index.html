@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fifa World Cup 2030</title>
     <script type="module" src="/src/index.js" defer></script>
-    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/styles/style.css" />
   </head>
   <body>
     <header>
@@ -46,16 +46,20 @@
         </div>
       </div>
     </header>
-    <div id="qualifiers">
-      <div id="interactions">
+
+    <main id="qualifiers">
+      <!-- Interaction Controls -->
+      <section id="interactions" class="controls-section">
         <h2 id="main-title">Press to Qualify teams</h2>
-        <div class="button-group">
-          <button id="qualify-button">Start Qualification</button>
+        <nav class="button-group" aria-label="Tournament controls">
+          <button id="qualify-button" class="btn-primary">
+            Start Qualification
+          </button>
           <button
             id="reset-button"
-            class="icon-button"
-            style="display: none"
+            class="btn-icon hidden"
             title="Run qualification again"
+            aria-label="Reset qualification"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -73,14 +77,14 @@
               />
             </svg>
           </button>
-          <button id="draw-groups-button" style="display: none">
+          <button id="draw-groups-button" class="btn-primary hidden">
             Draw Groups
           </button>
           <button
             id="redraw-groups-button"
-            class="icon-button"
-            style="display: none"
+            class="btn-icon hidden"
             title="Redraw groups"
+            aria-label="Redraw groups"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -98,46 +102,56 @@
               />
             </svg>
           </button>
-          <button id="play-world-cup-button" style="display: none">
+          <button id="play-world-cup-button" class="btn-primary hidden">
             Play World Cup Groups
           </button>
-          <button id="initiate-playoffs-button" style="display: none">
+          <button id="initiate-playoffs-button" class="btn-primary hidden">
             Initiate Playoffs
           </button>
+        </nav>
+      </section>
+
+      <!-- Dynamic Content Container -->
+      <div id="content-container" class="content-container">
+        <!-- Confederation Sections -->
+        <div id="confederations-view" class="sections-grid">
+          <section id="conmebol-section" class="confed-section">
+            <h3 class="section-title">CONMEBOL</h3>
+            <ul id="conmebol-teams-list" class="teams-list"></ul>
+          </section>
+
+          <section id="concacaf-section" class="confed-section">
+            <h3 class="section-title">CONCACAF</h3>
+            <ul id="concacaf-teams-list" class="teams-list"></ul>
+          </section>
+
+          <section id="caf-section" class="confed-section">
+            <h3 class="section-title">CAF</h3>
+            <ul id="caf-teams-list" class="teams-list"></ul>
+          </section>
+
+          <section id="afc-section" class="confed-section">
+            <h3 class="section-title">AFC</h3>
+            <ul id="afc-teams-list" class="teams-list"></ul>
+          </section>
+
+          <section id="uefa-section" class="confed-section">
+            <h3 class="section-title">UEFA</h3>
+            <ul id="uefa-teams-list" class="teams-list"></ul>
+          </section>
+
+          <section id="ofc-section" class="confed-section">
+            <h3 class="section-title">OFC</h3>
+            <ul id="ofc-teams-list" class="teams-list"></ul>
+          </section>
         </div>
+
+        <!-- Groups View (Will be dynamically shown) -->
+        <div id="groups-view" class="sections-grid hidden"></div>
+
+        <!-- Bracket View (Will be dynamically shown) -->
+        <div id="bracket-view" class="hidden"></div>
       </div>
-
-      <div class="sections-grid">
-        <section id="conmebol-section" class="confed-section">
-          <h3 class="section-title">CONMEBOL</h3>
-          <ul id="conmebol-teams-list" class="teams-list"></ul>
-        </section>
-
-        <section id="concacaf-section" class="confed-section">
-          <h3 class="section-title">CONCACAF</h3>
-          <ul id="concacaf-teams-list" class="teams-list"></ul>
-        </section>
-
-        <section id="caf-section" class="confed-section">
-          <h3 class="section-title">CAF</h3>
-          <ul id="caf-teams-list" class="teams-list"></ul>
-        </section>
-
-        <section id="afc-section" class="confed-section">
-          <h3 class="section-title">AFC</h3>
-          <ul id="afc-teams-list" class="teams-list"></ul>
-        </section>
-
-        <section id="uefa-section" class="confed-section">
-          <h3 class="section-title">UEFA</h3>
-          <ul id="uefa-teams-list" class="teams-list"></ul>
-        </section>
-
-        <section id="ofc-section" class="confed-section">
-          <h3 class="section-title">OFC</h3>
-          <ul id="ofc-teams-list" class="teams-list"></ul>
-        </section>
-      </div>
-    </div>
+    </main>
   </body>
 </html>
