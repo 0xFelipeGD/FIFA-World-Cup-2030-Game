@@ -10,7 +10,7 @@ import {
   qualifyUEFA,
   qualifyOFC,
 } from "./services/confederations-qualifications.js";
-import { simulateLeague } from "./services/football.js";
+import { simulateLeague, simulatePlayoff } from "./services/football.js";
 import {
   clearAllConfederationLists,
   renderAllQualifications,
@@ -26,8 +26,16 @@ import {
   showGroupSimulating,
   showPostDrawButtons,
   showPostGroupsButtons,
-  renderRoundOf8,
+  renderRound32,
+  renderRound16,
+  renderQuarterFinals,
+  renderSemiFinals,
+  renderFinals,
+  renderFinalsWithThirdPlace,
+  renderFinalsComplete,
   showConfederationsView,
+  setButtonText,
+  toggleButton,
 } from "./ui/dom.js";
 
 // ============================================================================
@@ -40,6 +48,16 @@ let qualifiedTeamsCAF = [];
 let qualifiedTeamsAFC = [];
 let qualifiedTeamsOFC = [];
 let currentGroups = [];
+let round32Matches = []; // 16 de Finais
+let round16Matches = []; // Oitavas de Final
+let round16Teams = [];
+let quarterFinalsMatches = [];
+let quarterFinalsTeams = [];
+let semiFinalsMatches = [];
+let semiFinalsTeams = [];
+let finalsTeams = [];
+let thirdPlaceTeams = [];
+let thirdPlaceWinnerStored = null; // Armazenar vencedor do 3º lugar
 
 // ============================================================================
 // QUALIFICATION WORKFLOW
@@ -346,7 +364,7 @@ async function playWorldCupGroups() {
 // KNOCKOUT STAGE (PLAYOFFS)
 // ============================================================================
 
-function initiatePlayoffs() {
+function drawRoundOf8() {
   // Extract winners and runners-up
   const firsts = currentGroups.map((group) => group[0]);
   const seconds = currentGroups.map((group) => group[1]);
@@ -361,6 +379,222 @@ function initiatePlayoffs() {
   // Render bracket and update UI
   renderRoundOf8(matches);
   setMainTitle("Round of 8 - Knockout Stage");
+}
+
+function initiatePlayoffs() {
+  // Draw the Round of 32 (16 de Finais)
+  drawRound32();
+
+  // Update button visibility
+  toggleButton("initiate-playoffs-button", false);
+  toggleButton("redraw-groups-button", true);
+  toggleButton("play-world-cup-button", false);
+
+  // Change the redraw button to redraw playoffs
+  replaceButtonListener("redraw-groups-button", drawRound32);
+
+  // Show the play button
+  setButtonText("initiate-playoffs-button", "Jogar 16 de Finais");
+  toggleButton("initiate-playoffs-button", true);
+  replaceButtonListener("initiate-playoffs-button", playRound32);
+}
+
+function drawRound32() {
+  // Extract winners and runners-up from 16 groups = 32 teams
+  const firsts = currentGroups.map((group) => group[0]);
+  const seconds = currentGroups.map((group) => group[1]);
+
+  // Shuffle randomly
+  firsts.sort(() => Math.random() - 0.5);
+  seconds.sort(() => Math.random() - 0.5);
+
+  // Create matches (first vs second)
+  const matches = firsts.map((first, index) => [first, seconds[index]]);
+
+  // Store matches in global state
+  round32Matches = matches;
+
+  // Render bracket and update UI
+  renderRound32(matches);
+  setMainTitle("16 de Finais - Fase Eliminatória");
+}
+
+function playRound32() {
+  // Simulate all 16 de Finais matches (32 → 16 teams)
+  const winners = round32Matches.map(([team1, team2]) => {
+    return simulatePlayoff(team1, team2);
+  });
+
+  // Store winners for round of 16 (oitavas)
+  round16Teams = winners;
+
+  // Create round of 16 matches (pair winners)
+  const matches = [];
+  for (let i = 0; i < winners.length; i += 2) {
+    matches.push([winners[i], winners[i + 1]]);
+  }
+  round16Matches = matches;
+
+  // Render round of 16
+  renderRound16(round32Matches, round16Matches);
+  setMainTitle("16 de Finais Completas - Oitavas Prontas");
+
+  // Update buttons - REMOVE redraw button after playing
+  toggleButton("redraw-groups-button", false);
+
+  // Show play button for next round
+  setButtonText("initiate-playoffs-button", "Jogar Oitavas");
+  toggleButton("initiate-playoffs-button", true);
+  replaceButtonListener("initiate-playoffs-button", playRound16);
+}
+
+function playRound16() {
+  // Simulate all Oitavas matches (16 → 8 teams)
+  const winners = round16Matches.map(([team1, team2]) => {
+    return simulatePlayoff(team1, team2);
+  });
+
+  // Store winners for quarter finals
+  quarterFinalsTeams = winners;
+
+  // Create quarter finals matches (pair winners)
+  const matches = [];
+  for (let i = 0; i < winners.length; i += 2) {
+    matches.push([winners[i], winners[i + 1]]);
+  }
+  quarterFinalsMatches = matches;
+
+  // Render quarter finals
+  renderQuarterFinals(round32Matches, round16Matches, quarterFinalsMatches);
+  setMainTitle("Oitavas Completas - Quartas Prontas");
+
+  // Update button
+  setButtonText("initiate-playoffs-button", "Jogar Quartas");
+  replaceButtonListener("initiate-playoffs-button", playQuarters);
+}
+
+function playQuarters() {
+  // Simulate quarter finals (8 → 4 teams)
+  const winners = quarterFinalsMatches.map(([team1, team2]) => {
+    return simulatePlayoff(team1, team2);
+  });
+
+  // Store winners
+  semiFinalsTeams = winners;
+
+  // Create semi finals matches
+  const matches = [];
+  for (let i = 0; i < winners.length; i += 2) {
+    matches.push([winners[i], winners[i + 1]]);
+  }
+  semiFinalsMatches = matches;
+
+  // Render semi finals
+  renderSemiFinals(
+    round32Matches,
+    round16Matches,
+    quarterFinalsMatches,
+    semiFinalsMatches
+  );
+  setMainTitle("Quartas Completas - Semis Prontas");
+
+  // Update button
+  setButtonText("initiate-playoffs-button", "Jogar Semi-Finais");
+  replaceButtonListener("initiate-playoffs-button", playSemiFinals);
+}
+
+function playSemiFinals() {
+  // Simulate semi finals (4 → 2 winners + 2 losers)
+  const winners = [];
+  const losers = [];
+
+  semiFinalsMatches.forEach(([team1, team2]) => {
+    const winner = simulatePlayoff(team1, team2);
+    winners.push(winner);
+    losers.push(winner === team1 ? team2 : team1);
+  });
+
+  // Store for finals
+  finalsTeams = winners;
+  thirdPlaceTeams = losers;
+
+  renderFinals(
+    round32Matches,
+    round16Matches,
+    quarterFinalsMatches,
+    semiFinalsMatches,
+    [thirdPlaceTeams],
+    [finalsTeams]
+  );
+  setMainTitle("Semi-Finais Completas - Finais Prontas");
+
+  // Update button - First play third place
+  setButtonText("initiate-playoffs-button", "Jogar Terceiro Lugar");
+  replaceButtonListener("initiate-playoffs-button", playThirdPlace);
+
+  // Remove redraw button
+  toggleButton("redraw-groups-button", false);
+}
+
+function playThirdPlace() {
+  // Simulate third place
+  const thirdPlaceWinner = simulatePlayoff(
+    thirdPlaceTeams[0],
+    thirdPlaceTeams[1]
+  );
+
+  // Store winner to avoid re-simulating
+  thirdPlaceWinnerStored = thirdPlaceWinner;
+
+  console.log(`🥉 Third Place: ${thirdPlaceWinner.name}`);
+
+  // Render with third place winner highlighted
+  renderFinalsWithThirdPlace(
+    round32Matches,
+    round16Matches,
+    quarterFinalsMatches,
+    semiFinalsMatches,
+    [thirdPlaceTeams],
+    [finalsTeams],
+    thirdPlaceWinner
+  );
+
+  setMainTitle("Terceiro Lugar Decidido - Final Pronta");
+
+  // Update button for final
+  setButtonText("initiate-playoffs-button", "Jogar a Final");
+  replaceButtonListener("initiate-playoffs-button", playFinal);
+}
+
+function playFinal() {
+  // Simulate final
+  const champion = simulatePlayoff(finalsTeams[0], finalsTeams[1]);
+  const runnerUp =
+    champion === finalsTeams[0] ? finalsTeams[1] : finalsTeams[0];
+
+  // Use stored third place winner
+  const thirdPlaceWinner = thirdPlaceWinnerStored;
+
+  // Update title with results
+  setMainTitle(``);
+
+  // Render final bracket with champion highlighted
+  renderFinalsComplete(
+    round32Matches,
+    round16Matches,
+    quarterFinalsMatches,
+    semiFinalsMatches,
+    [thirdPlaceTeams],
+    [finalsTeams],
+    thirdPlaceWinner,
+    champion,
+    runnerUp
+  );
+
+  // Hide ALL playoff buttons and show only reset
+  toggleButton("initiate-playoffs-button", false);
+  toggleButton("redraw-groups-button", false);
+  toggleButton("reset-button", false);
 }
 
 // ============================================================================

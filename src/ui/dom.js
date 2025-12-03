@@ -473,14 +473,17 @@ export function showGroupSimulating(groupIndex) {
 }
 
 // Create a bracket team element
-function createBracketTeam(team, isEmpty = false) {
+function createBracketTeam(team, isEmpty = false, isWinner = false) {
   if (isEmpty) {
     return createElement("div", { className: "bracket-team empty-team" }, [
       createElement("span", { className: "bracket-team-name" }, "TBD"),
     ]);
   }
 
-  return createElement("div", { className: "bracket-team" }, [
+  const classes = ["bracket-team"];
+  if (isWinner) classes.push("winner");
+
+  return createElement("div", { className: classes.join(" ") }, [
     createElement("img", {
       src: team.flag,
       alt: team.name,
@@ -495,7 +498,8 @@ function createBracketMatch(
   teams,
   matchIndex,
   isEmpty = false,
-  isSpecial = ""
+  isSpecial = "",
+  winner = null
 ) {
   const classes = ["bracket-match"];
   if (isEmpty) classes.push("empty-match");
@@ -508,7 +512,9 @@ function createBracketMatch(
       className: classes.join(" "),
       dataset: { match: String(matchIndex) },
     },
-    teams.map((team) => createBracketTeam(team, isEmpty))
+    teams.map((team) =>
+      createBracketTeam(team, isEmpty, winner && team.name === winner.name)
+    )
   );
 }
 
@@ -526,8 +532,8 @@ function createBracketRound(title, matches, roundClass) {
   ]);
 }
 
-// Render Round of 8 bracket
-export function renderRoundOf8(matches) {
+// Render Round of 32 bracket (16 de Finais)
+export function renderRound32(matches) {
   const bracketView = document.getElementById("bracket-view");
   if (!bracketView) return;
 
@@ -545,11 +551,15 @@ export function renderRoundOf8(matches) {
     .map((match, i) => createBracketMatch(match, i + 8));
 
   // Create empty matches for next rounds
-  const quarterFinalsEmpty = Array.from({ length: 8 }, (_, i) =>
+  const round16Empty = Array.from({ length: 8 }, (_, i) =>
     createBracketMatch([{}, {}], i, true)
   );
 
-  const semiFinalsEmpty = Array.from({ length: 4 }, (_, i) =>
+  const quarterFinalsEmpty = Array.from({ length: 4 }, (_, i) =>
+    createBracketMatch([{}, {}], i, true)
+  );
+
+  const semiFinalsEmpty = Array.from({ length: 2 }, (_, i) =>
     createBracketMatch([{}, {}], i, true)
   );
 
@@ -562,15 +572,16 @@ export function renderRoundOf8(matches) {
     { className: "bracket single-bracket" },
     [
       // Left side
-      createBracketRound("Round of 8", leftMatches, "round-of-8"),
+      createBracketRound("16 de Finais", leftMatches, "round-of-32"),
+      createBracketRound("Oitavas", round16Empty.slice(0, 4), "round-of-16"),
       createBracketRound(
-        "Quarter Finals",
-        quarterFinalsEmpty.slice(0, 4),
+        "Quartas",
+        quarterFinalsEmpty.slice(0, 2),
         "quarter-finals"
       ),
       createBracketRound(
-        "Semi Finals",
-        semiFinalsEmpty.slice(0, 2),
+        "Semi-Finais",
+        semiFinalsEmpty.slice(0, 1),
         "semi-finals"
       ),
 
@@ -582,7 +593,7 @@ export function renderRoundOf8(matches) {
             createElement("div", { className: "matches-column" }, [finalEmpty]),
           ]),
           createElement("div", { className: "bracket-round third-place" }, [
-            createElement("h3", { className: "round-title" }, "3rd Place"),
+            createElement("h3", { className: "round-title" }, "3º Lugar"),
             createElement("div", { className: "matches-column" }, [
               thirdPlaceEmpty,
             ]),
@@ -592,16 +603,525 @@ export function renderRoundOf8(matches) {
 
       // Right side
       createBracketRound(
-        "Semi Finals",
-        semiFinalsEmpty.slice(2, 4),
+        "Semi-Finais",
+        semiFinalsEmpty.slice(1, 2),
         "semi-finals"
       ),
       createBracketRound(
-        "Quarter Finals",
-        quarterFinalsEmpty.slice(4, 8),
+        "Quartas",
+        quarterFinalsEmpty.slice(2, 4),
         "quarter-finals"
       ),
-      createBracketRound("Round of 8", rightMatches, "round-of-8"),
+      createBracketRound("Oitavas", round16Empty.slice(4, 8), "round-of-16"),
+      createBracketRound("16 de Finais", rightMatches, "round-of-32"),
+    ]
+  );
+
+  bracketView.appendChild(bracket);
+  showBracketView();
+}
+
+// Render Round of 16 bracket (Oitavas) with results
+export function renderRound16(round32Matches, round16Matches) {
+  const bracketView = document.getElementById("bracket-view");
+  if (!bracketView) return;
+
+  bracketView.innerHTML = "";
+  bracketView.className = "bracket-container";
+
+  // Create Round of 32 matches
+  const leftR32 = round32Matches
+    .slice(0, 8)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR32 = round32Matches
+    .slice(8, 16)
+    .map((match, i) => createBracketMatch(match, i + 8));
+
+  // Create Round of 16 matches (Oitavas)
+  const leftR16 = round16Matches
+    .slice(0, 4)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR16 = round16Matches
+    .slice(4, 8)
+    .map((match, i) => createBracketMatch(match, i + 4));
+
+  // Empty matches for next rounds
+  const quarterFinalsEmpty = Array.from({ length: 4 }, (_, i) =>
+    createBracketMatch([{}, {}], i, true)
+  );
+  const semiFinalsEmpty = Array.from({ length: 2 }, (_, i) =>
+    createBracketMatch([{}, {}], i, true)
+  );
+  const finalEmpty = createBracketMatch([{}, {}], 0, true, "final");
+  const thirdPlaceEmpty = createBracketMatch([{}, {}], 0, true, "third-place");
+
+  const bracket = createElement(
+    "div",
+    { className: "bracket single-bracket" },
+    [
+      createBracketRound("16 de Finais", leftR32, "round-of-32"),
+      createBracketRound("Oitavas", leftR16, "round-of-16"),
+      createBracketRound(
+        "Quartas",
+        quarterFinalsEmpty.slice(0, 2),
+        "quarter-finals"
+      ),
+      createBracketRound(
+        "Semi-Finais",
+        semiFinalsEmpty.slice(0, 1),
+        "semi-finals"
+      ),
+      createElement("div", { className: "bracket-round final-round" }, [
+        createElement("div", { className: "final-container" }, [
+          createElement("div", { className: "bracket-round final" }, [
+            createElement("h3", { className: "round-title" }, "Final"),
+            createElement("div", { className: "matches-column" }, [finalEmpty]),
+          ]),
+          createElement("div", { className: "bracket-round third-place" }, [
+            createElement("h3", { className: "round-title" }, "3º Lugar"),
+            createElement("div", { className: "matches-column" }, [
+              thirdPlaceEmpty,
+            ]),
+          ]),
+        ]),
+      ]),
+      createBracketRound(
+        "Semi-Finais",
+        semiFinalsEmpty.slice(1, 2),
+        "semi-finals"
+      ),
+      createBracketRound(
+        "Quartas",
+        quarterFinalsEmpty.slice(2, 4),
+        "quarter-finals"
+      ),
+      createBracketRound("Oitavas", rightR16, "round-of-16"),
+      createBracketRound("16 de Finais", rightR32, "round-of-32"),
+    ]
+  );
+
+  bracketView.appendChild(bracket);
+  showBracketView();
+}
+
+// Render Quarter Finals bracket with results
+export function renderQuarterFinals(
+  round32Matches,
+  round16Matches,
+  quarterMatches
+) {
+  const bracketView = document.getElementById("bracket-view");
+  if (!bracketView) return;
+
+  bracketView.innerHTML = "";
+  bracketView.className = "bracket-container";
+
+  // Create Round of 32 matches
+  const leftR32 = round32Matches
+    .slice(0, 8)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR32 = round32Matches
+    .slice(8, 16)
+    .map((match, i) => createBracketMatch(match, i + 8));
+
+  // Create Round of 16 matches (Oitavas)
+  const leftR16 = round16Matches
+    .slice(0, 4)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR16 = round16Matches
+    .slice(4, 8)
+    .map((match, i) => createBracketMatch(match, i + 4));
+
+  // Create Quarter Finals matches
+  const leftQuarters = quarterMatches
+    .slice(0, 2)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightQuarters = quarterMatches
+    .slice(2, 4)
+    .map((match, i) => createBracketMatch(match, i + 2));
+
+  // Empty matches for next rounds
+  const semiFinalsEmpty = Array.from({ length: 2 }, (_, i) =>
+    createBracketMatch([{}, {}], i, true)
+  );
+  const finalEmpty = createBracketMatch([{}, {}], 0, true, "final");
+  const thirdPlaceEmpty = createBracketMatch([{}, {}], 0, true, "third-place");
+
+  const bracket = createElement(
+    "div",
+    { className: "bracket single-bracket" },
+    [
+      createBracketRound("16 de Finais", leftR32, "round-of-32"),
+      createBracketRound("Oitavas", leftR16, "round-of-16"),
+      createBracketRound("Quartas", leftQuarters, "quarter-finals"),
+      createBracketRound(
+        "Semi-Finais",
+        semiFinalsEmpty.slice(0, 1),
+        "semi-finals"
+      ),
+      createElement("div", { className: "bracket-round final-round" }, [
+        createElement("div", { className: "final-container" }, [
+          createElement("div", { className: "bracket-round final" }, [
+            createElement("h3", { className: "round-title" }, "Final"),
+            createElement("div", { className: "matches-column" }, [finalEmpty]),
+          ]),
+          createElement("div", { className: "bracket-round third-place" }, [
+            createElement("h3", { className: "round-title" }, "3º Lugar"),
+            createElement("div", { className: "matches-column" }, [
+              thirdPlaceEmpty,
+            ]),
+          ]),
+        ]),
+      ]),
+      createBracketRound(
+        "Semi-Finais",
+        semiFinalsEmpty.slice(1, 2),
+        "semi-finals"
+      ),
+      createBracketRound("Quartas", rightQuarters, "quarter-finals"),
+      createBracketRound("Oitavas", rightR16, "round-of-16"),
+      createBracketRound("16 de Finais", rightR32, "round-of-32"),
+    ]
+  );
+
+  bracketView.appendChild(bracket);
+  showBracketView();
+}
+
+// Render Semi Finals bracket with results
+export function renderSemiFinals(
+  round32Matches,
+  round16Matches,
+  quarterMatches,
+  semiMatches
+) {
+  const bracketView = document.getElementById("bracket-view");
+  if (!bracketView) return;
+
+  bracketView.innerHTML = "";
+  bracketView.className = "bracket-container";
+
+  const leftR32 = round32Matches
+    .slice(0, 8)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR32 = round32Matches
+    .slice(8, 16)
+    .map((match, i) => createBracketMatch(match, i + 8));
+
+  const leftR16 = round16Matches
+    .slice(0, 4)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR16 = round16Matches
+    .slice(4, 8)
+    .map((match, i) => createBracketMatch(match, i + 4));
+
+  const leftQuarters = quarterMatches
+    .slice(0, 2)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightQuarters = quarterMatches
+    .slice(2, 4)
+    .map((match, i) => createBracketMatch(match, i + 2));
+
+  const leftSemi = semiMatches
+    .slice(0, 1)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightSemi = semiMatches
+    .slice(1, 2)
+    .map((match, i) => createBracketMatch(match, i + 1));
+
+  const finalEmpty = createBracketMatch([{}, {}], 0, true, "final");
+  const thirdPlaceEmpty = createBracketMatch([{}, {}], 0, true, "third-place");
+
+  const bracket = createElement(
+    "div",
+    { className: "bracket single-bracket" },
+    [
+      createBracketRound("16 de Finais", leftR32, "round-of-32"),
+      createBracketRound("Oitavas", leftR16, "round-of-16"),
+      createBracketRound("Quartas", leftQuarters, "quarter-finals"),
+      createBracketRound("Semi-Finais", leftSemi, "semi-finals"),
+      createElement("div", { className: "bracket-round final-round" }, [
+        createElement("div", { className: "final-container" }, [
+          createElement("div", { className: "bracket-round final" }, [
+            createElement("h3", { className: "round-title" }, "Final"),
+            createElement("div", { className: "matches-column" }, [finalEmpty]),
+          ]),
+          createElement("div", { className: "bracket-round third-place" }, [
+            createElement("h3", { className: "round-title" }, "3º Lugar"),
+            createElement("div", { className: "matches-column" }, [
+              thirdPlaceEmpty,
+            ]),
+          ]),
+        ]),
+      ]),
+      createBracketRound("Semi-Finais", rightSemi, "semi-finals"),
+      createBracketRound("Quartas", rightQuarters, "quarter-finals"),
+      createBracketRound("Oitavas", rightR16, "round-of-16"),
+      createBracketRound("16 de Finais", rightR32, "round-of-32"),
+    ]
+  );
+
+  bracketView.appendChild(bracket);
+  showBracketView();
+}
+
+// Render Finals bracket with all results
+export function renderFinals(
+  round32Matches,
+  round16Matches,
+  quarterMatches,
+  semiMatches,
+  thirdPlaceMatch,
+  finalMatch
+) {
+  const bracketView = document.getElementById("bracket-view");
+  if (!bracketView) return;
+
+  bracketView.innerHTML = "";
+  bracketView.className = "bracket-container";
+
+  const leftR32 = round32Matches
+    .slice(0, 8)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR32 = round32Matches
+    .slice(8, 16)
+    .map((match, i) => createBracketMatch(match, i + 8));
+
+  const leftR16 = round16Matches
+    .slice(0, 4)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR16 = round16Matches
+    .slice(4, 8)
+    .map((match, i) => createBracketMatch(match, i + 4));
+
+  const leftQuarters = quarterMatches
+    .slice(0, 2)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightQuarters = quarterMatches
+    .slice(2, 4)
+    .map((match, i) => createBracketMatch(match, i + 2));
+
+  const leftSemi = semiMatches
+    .slice(0, 1)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightSemi = semiMatches
+    .slice(1, 2)
+    .map((match, i) => createBracketMatch(match, i + 1));
+
+  const final = createBracketMatch(finalMatch[0], 0, false, "final");
+  const thirdPlace = createBracketMatch(
+    thirdPlaceMatch[0],
+    0,
+    false,
+    "third-place"
+  );
+
+  const bracket = createElement(
+    "div",
+    { className: "bracket single-bracket" },
+    [
+      createBracketRound("16 de Finais", leftR32, "round-of-32"),
+      createBracketRound("Oitavas", leftR16, "round-of-16"),
+      createBracketRound("Quartas", leftQuarters, "quarter-finals"),
+      createBracketRound("Semi-Finais", leftSemi, "semi-finals"),
+      createElement("div", { className: "bracket-round final-round" }, [
+        createElement("div", { className: "final-container" }, [
+          createElement("div", { className: "bracket-round final" }, [
+            createElement("h3", { className: "round-title" }, "Final"),
+            createElement("div", { className: "matches-column" }, [final]),
+          ]),
+          createElement("div", { className: "bracket-round third-place" }, [
+            createElement("h3", { className: "round-title" }, "3º Lugar"),
+            createElement("div", { className: "matches-column" }, [thirdPlace]),
+          ]),
+        ]),
+      ]),
+      createBracketRound("Semi-Finais", rightSemi, "semi-finals"),
+      createBracketRound("Quartas", rightQuarters, "quarter-finals"),
+      createBracketRound("Oitavas", rightR16, "round-of-16"),
+      createBracketRound("16 de Finais", rightR32, "round-of-32"),
+    ]
+  );
+
+  bracketView.appendChild(bracket);
+  showBracketView();
+}
+
+// Render Finals bracket with third place winner highlighted
+export function renderFinalsWithThirdPlace(
+  round32Matches,
+  round16Matches,
+  quarterMatches,
+  semiMatches,
+  thirdPlaceMatch,
+  finalMatch,
+  thirdPlaceWinner
+) {
+  const bracketView = document.getElementById("bracket-view");
+  if (!bracketView) return;
+
+  bracketView.innerHTML = "";
+  bracketView.className = "bracket-container";
+
+  const leftR32 = round32Matches
+    .slice(0, 8)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR32 = round32Matches
+    .slice(8, 16)
+    .map((match, i) => createBracketMatch(match, i + 8));
+
+  const leftR16 = round16Matches
+    .slice(0, 4)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR16 = round16Matches
+    .slice(4, 8)
+    .map((match, i) => createBracketMatch(match, i + 4));
+
+  const leftQuarters = quarterMatches
+    .slice(0, 2)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightQuarters = quarterMatches
+    .slice(2, 4)
+    .map((match, i) => createBracketMatch(match, i + 2));
+
+  const leftSemi = semiMatches
+    .slice(0, 1)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightSemi = semiMatches
+    .slice(1, 2)
+    .map((match, i) => createBracketMatch(match, i + 1));
+
+  const final = createBracketMatch(finalMatch[0], 0, false, "final");
+  const thirdPlace = createBracketMatch(
+    thirdPlaceMatch[0],
+    0,
+    false,
+    "third-place",
+    thirdPlaceWinner
+  );
+
+  const bracket = createElement(
+    "div",
+    { className: "bracket single-bracket" },
+    [
+      createBracketRound("16 de Finais", leftR32, "round-of-32"),
+      createBracketRound("Oitavas", leftR16, "round-of-16"),
+      createBracketRound("Quartas", leftQuarters, "quarter-finals"),
+      createBracketRound("Semi-Finais", leftSemi, "semi-finals"),
+      createElement("div", { className: "bracket-round final-round" }, [
+        createElement("div", { className: "final-container" }, [
+          createElement("div", { className: "bracket-round final" }, [
+            createElement("h3", { className: "round-title" }, "Final"),
+            createElement("div", { className: "matches-column" }, [final]),
+          ]),
+          createElement("div", { className: "bracket-round third-place" }, [
+            createElement("h3", { className: "round-title" }, "3º Lugar"),
+            createElement("div", { className: "matches-column" }, [thirdPlace]),
+          ]),
+        ]),
+      ]),
+      createBracketRound("Semi-Finais", rightSemi, "semi-finals"),
+      createBracketRound("Quartas", rightQuarters, "quarter-finals"),
+      createBracketRound("Oitavas", rightR16, "round-of-16"),
+      createBracketRound("16 de Finais", rightR32, "round-of-32"),
+    ]
+  );
+
+  bracketView.appendChild(bracket);
+  showBracketView();
+}
+
+// Render Finals bracket completely with champion highlighted
+export function renderFinalsComplete(
+  round32Matches,
+  round16Matches,
+  quarterMatches,
+  semiMatches,
+  thirdPlaceMatch,
+  finalMatch,
+  thirdPlaceWinner,
+  champion,
+  runnerUp
+) {
+  const bracketView = document.getElementById("bracket-view");
+  if (!bracketView) return;
+
+  bracketView.innerHTML = "";
+  bracketView.className = "bracket-container";
+
+  const leftR32 = round32Matches
+    .slice(0, 8)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR32 = round32Matches
+    .slice(8, 16)
+    .map((match, i) => createBracketMatch(match, i + 8));
+
+  const leftR16 = round16Matches
+    .slice(0, 4)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightR16 = round16Matches
+    .slice(4, 8)
+    .map((match, i) => createBracketMatch(match, i + 4));
+
+  const leftQuarters = quarterMatches
+    .slice(0, 2)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightQuarters = quarterMatches
+    .slice(2, 4)
+    .map((match, i) => createBracketMatch(match, i + 2));
+
+  const leftSemi = semiMatches
+    .slice(0, 1)
+    .map((match, i) => createBracketMatch(match, i));
+  const rightSemi = semiMatches
+    .slice(1, 2)
+    .map((match, i) => createBracketMatch(match, i + 1));
+
+  const final = createBracketMatch(finalMatch[0], 0, false, "final", champion);
+  const thirdPlace = createBracketMatch(
+    thirdPlaceMatch[0],
+    0,
+    false,
+    "third-place",
+    thirdPlaceWinner
+  );
+
+  const bracket = createElement(
+    "div",
+    { className: "bracket single-bracket" },
+    [
+      createBracketRound("16 de Finais", leftR32, "round-of-32"),
+      createBracketRound("Oitavas", leftR16, "round-of-16"),
+      createBracketRound("Quartas", leftQuarters, "quarter-finals"),
+      createBracketRound("Semi-Finais", leftSemi, "semi-finals"),
+      createElement("div", { className: "bracket-round final-round" }, [
+        createElement("div", { className: "final-container" }, [
+          createElement("div", { className: "bracket-round final" }, [
+            createElement("h3", { className: "round-title" }, "Final"),
+            createElement("div", { className: "matches-column" }, [final]),
+            createElement("div", { className: "champion-display" }, [
+              createElement("img", {
+                src: champion.flag,
+                alt: champion.name,
+                className: "champion-flag",
+              }),
+              createElement(
+                "p",
+                { className: "champion-text" },
+                `🏆 ${champion.name}`
+              ),
+            ]),
+          ]),
+          createElement("div", { className: "bracket-round third-place" }, [
+            createElement("h3", { className: "round-title" }, "3º Lugar"),
+            createElement("div", { className: "matches-column" }, [thirdPlace]),
+          ]),
+        ]),
+      ]),
+      createBracketRound("Semi-Finais", rightSemi, "semi-finals"),
+      createBracketRound("Quartas", rightQuarters, "quarter-finals"),
+      createBracketRound("Oitavas", rightR16, "round-of-16"),
+      createBracketRound("16 de Finais", rightR32, "round-of-32"),
     ]
   );
 

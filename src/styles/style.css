@@ -722,11 +722,29 @@ button:disabled {
   flex-direction: column;
   gap: 25px;
   align-items: center;
+  justify-content: center;
+}
+
+.final {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.third-place {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .final .matches-column,
 .third-place .matches-column {
   justify-content: center;
+  align-items: center;
   min-height: auto;
   gap: 0;
 }
@@ -805,6 +823,35 @@ button:disabled {
   background: rgba(59, 130, 246, 0.15);
 }
 
+/* Winner highlight */
+.bracket-team.winner {
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.3),
+    rgba(5, 150, 105, 0.2)
+  );
+  border: 2px solid #10b981;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+  font-weight: 700;
+  animation: pulse-winner 2s ease-in-out infinite;
+}
+
+.bracket-team.winner .bracket-team-name {
+  color: #34d399;
+  text-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
+}
+
+@keyframes pulse-winner {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.8);
+  }
+}
+
 .bracket-flag {
   width: 32px;
   height: 22px;
@@ -856,6 +903,7 @@ button:disabled {
   box-shadow: 0 0 30px rgba(251, 191, 36, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
   background: linear-gradient(135deg, #4a3a1f 0%, #5a4a2f 100%);
   width: 200px;
+  margin: 0 auto;
 }
 
 .final-match::after {
@@ -881,6 +929,7 @@ button:disabled {
   background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
   box-shadow: 0 0 20px rgba(148, 163, 184, 0.3);
   width: 200px;
+  margin: 0 auto;
 }
 
 .third-place-match:hover {
@@ -921,6 +970,81 @@ button:disabled {
   font-size: 0.85rem;
   border-color: #94a3b8;
   color: #cbd5e1;
+}
+
+/* Champion display */
+.champion-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  padding: 25px;
+  background: linear-gradient(
+    135deg,
+    rgba(251, 191, 36, 0.3),
+    rgba(251, 191, 36, 0.1)
+  );
+  border: 3px solid #fbbf24;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.6);
+  animation: champion-glow 2s ease-in-out infinite;
+}
+
+.champion-flag {
+  width: 200px;
+  height: auto;
+  max-height: 150px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  border: 3px solid #fbbf24;
+  animation: flag-pulse 2s ease-in-out infinite;
+}
+
+@keyframes flag-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.6);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(251, 191, 36, 0.9);
+  }
+}
+
+/* Champion text */
+.champion-text {
+  margin: 0;
+  padding: 10px 20px;
+  color: #fcd34d;
+  font-size: 1.3rem;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px rgba(252, 211, 77, 0.9);
+}
+
+.runner-up-text {
+  margin: 0;
+  padding: 8px 16px;
+  color: #cbd5e1;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+@keyframes champion-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(251, 191, 36, 0.9);
+  }
 }
 
 /* Responsive adjustments */
