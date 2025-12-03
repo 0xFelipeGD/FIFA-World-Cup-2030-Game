@@ -852,6 +852,21 @@ button:disabled {
   }
 }
 
+/* Loser fade effect */
+.bracket-team.loser {
+  opacity: 0.9;
+  filter: grayscale(60%) brightness(0.8);
+  transition: all 0.3s ease;
+}
+
+.bracket-team.loser .bracket-team-name {
+  color: #6b7280;
+}
+
+.bracket-team.loser .bracket-flag {
+  opacity: 0.5;
+}
+
 .bracket-flag {
   width: 32px;
   height: 22px;

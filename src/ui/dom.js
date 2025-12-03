@@ -473,7 +473,12 @@ export function showGroupSimulating(groupIndex) {
 }
 
 // Create a bracket team element
-function createBracketTeam(team, isEmpty = false, isWinner = false) {
+function createBracketTeam(
+  team,
+  isEmpty = false,
+  isWinner = false,
+  isLoser = false
+) {
   if (isEmpty) {
     return createElement("div", { className: "bracket-team empty-team" }, [
       createElement("span", { className: "bracket-team-name" }, "TBD"),
@@ -482,6 +487,7 @@ function createBracketTeam(team, isEmpty = false, isWinner = false) {
 
   const classes = ["bracket-team"];
   if (isWinner) classes.push("winner");
+  if (isLoser) classes.push("loser");
 
   return createElement("div", { className: classes.join(" ") }, [
     createElement("img", {
@@ -513,7 +519,12 @@ function createBracketMatch(
       dataset: { match: String(matchIndex) },
     },
     teams.map((team) =>
-      createBracketTeam(team, isEmpty, winner && team.name === winner.name)
+      createBracketTeam(
+        team,
+        isEmpty,
+        winner && team.name === winner.name,
+        winner && team.name !== winner.name && !isEmpty
+      )
     )
   );
 }
@@ -622,20 +633,28 @@ export function renderRound32(matches) {
 }
 
 // Render Round of 16 bracket (Oitavas) with results
-export function renderRound16(round32Matches, round16Matches) {
+export function renderRound16(
+  round32Matches,
+  round16Matches,
+  round32Winners = []
+) {
   const bracketView = document.getElementById("bracket-view");
   if (!bracketView) return;
 
   bracketView.innerHTML = "";
   bracketView.className = "bracket-container";
 
-  // Create Round of 32 matches
+  // Create Round of 32 matches with winners
   const leftR32 = round32Matches
     .slice(0, 8)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round32Winners[i])
+    );
   const rightR32 = round32Matches
     .slice(8, 16)
-    .map((match, i) => createBracketMatch(match, i + 8));
+    .map((match, i) =>
+      createBracketMatch(match, i + 8, false, false, round32Winners[i + 8])
+    );
 
   // Create Round of 16 matches (Oitavas)
   const leftR16 = round16Matches
@@ -708,7 +727,9 @@ export function renderRound16(round32Matches, round16Matches) {
 export function renderQuarterFinals(
   round32Matches,
   round16Matches,
-  quarterMatches
+  quarterMatches,
+  round32Winners = [],
+  round16Winners = []
 ) {
   const bracketView = document.getElementById("bracket-view");
   if (!bracketView) return;
@@ -716,21 +737,29 @@ export function renderQuarterFinals(
   bracketView.innerHTML = "";
   bracketView.className = "bracket-container";
 
-  // Create Round of 32 matches
+  // Create Round of 32 matches with winners
   const leftR32 = round32Matches
     .slice(0, 8)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round32Winners[i])
+    );
   const rightR32 = round32Matches
     .slice(8, 16)
-    .map((match, i) => createBracketMatch(match, i + 8));
+    .map((match, i) =>
+      createBracketMatch(match, i + 8, false, false, round32Winners[i + 8])
+    );
 
-  // Create Round of 16 matches (Oitavas)
+  // Create Round of 16 matches (Oitavas) with winners
   const leftR16 = round16Matches
     .slice(0, 4)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round16Winners[i])
+    );
   const rightR16 = round16Matches
     .slice(4, 8)
-    .map((match, i) => createBracketMatch(match, i + 4));
+    .map((match, i) =>
+      createBracketMatch(match, i + 4, false, false, round16Winners[i + 4])
+    );
 
   // Create Quarter Finals matches
   const leftQuarters = quarterMatches
@@ -793,7 +822,10 @@ export function renderSemiFinals(
   round32Matches,
   round16Matches,
   quarterMatches,
-  semiMatches
+  semiMatches,
+  round32Winners = [],
+  round16Winners = [],
+  quarterWinners = []
 ) {
   const bracketView = document.getElementById("bracket-view");
   if (!bracketView) return;
@@ -803,24 +835,36 @@ export function renderSemiFinals(
 
   const leftR32 = round32Matches
     .slice(0, 8)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round32Winners[i])
+    );
   const rightR32 = round32Matches
     .slice(8, 16)
-    .map((match, i) => createBracketMatch(match, i + 8));
+    .map((match, i) =>
+      createBracketMatch(match, i + 8, false, false, round32Winners[i + 8])
+    );
 
   const leftR16 = round16Matches
     .slice(0, 4)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round16Winners[i])
+    );
   const rightR16 = round16Matches
     .slice(4, 8)
-    .map((match, i) => createBracketMatch(match, i + 4));
+    .map((match, i) =>
+      createBracketMatch(match, i + 4, false, false, round16Winners[i + 4])
+    );
 
   const leftQuarters = quarterMatches
     .slice(0, 2)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, quarterWinners[i])
+    );
   const rightQuarters = quarterMatches
     .slice(2, 4)
-    .map((match, i) => createBracketMatch(match, i + 2));
+    .map((match, i) =>
+      createBracketMatch(match, i + 2, false, false, quarterWinners[i + 2])
+    );
 
   const leftSemi = semiMatches
     .slice(0, 1)
@@ -872,7 +916,11 @@ export function renderFinals(
   quarterMatches,
   semiMatches,
   thirdPlaceMatch,
-  finalMatch
+  finalMatch,
+  round32Winners = [],
+  round16Winners = [],
+  quarterWinners = [],
+  semiWinners = []
 ) {
   const bracketView = document.getElementById("bracket-view");
   if (!bracketView) return;
@@ -882,31 +930,47 @@ export function renderFinals(
 
   const leftR32 = round32Matches
     .slice(0, 8)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round32Winners[i])
+    );
   const rightR32 = round32Matches
     .slice(8, 16)
-    .map((match, i) => createBracketMatch(match, i + 8));
+    .map((match, i) =>
+      createBracketMatch(match, i + 8, false, false, round32Winners[i + 8])
+    );
 
   const leftR16 = round16Matches
     .slice(0, 4)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round16Winners[i])
+    );
   const rightR16 = round16Matches
     .slice(4, 8)
-    .map((match, i) => createBracketMatch(match, i + 4));
+    .map((match, i) =>
+      createBracketMatch(match, i + 4, false, false, round16Winners[i + 4])
+    );
 
   const leftQuarters = quarterMatches
     .slice(0, 2)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, quarterWinners[i])
+    );
   const rightQuarters = quarterMatches
     .slice(2, 4)
-    .map((match, i) => createBracketMatch(match, i + 2));
+    .map((match, i) =>
+      createBracketMatch(match, i + 2, false, false, quarterWinners[i + 2])
+    );
 
   const leftSemi = semiMatches
     .slice(0, 1)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, semiWinners[i])
+    );
   const rightSemi = semiMatches
     .slice(1, 2)
-    .map((match, i) => createBracketMatch(match, i + 1));
+    .map((match, i) =>
+      createBracketMatch(match, i + 1, false, false, semiWinners[i + 1])
+    );
 
   const final = createBracketMatch(finalMatch[0], 0, false, "final");
   const thirdPlace = createBracketMatch(
@@ -955,7 +1019,11 @@ export function renderFinalsWithThirdPlace(
   semiMatches,
   thirdPlaceMatch,
   finalMatch,
-  thirdPlaceWinner
+  thirdPlaceWinner,
+  round32Winners = [],
+  round16Winners = [],
+  quarterWinners = [],
+  semiWinners = []
 ) {
   const bracketView = document.getElementById("bracket-view");
   if (!bracketView) return;
@@ -965,31 +1033,47 @@ export function renderFinalsWithThirdPlace(
 
   const leftR32 = round32Matches
     .slice(0, 8)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round32Winners[i])
+    );
   const rightR32 = round32Matches
     .slice(8, 16)
-    .map((match, i) => createBracketMatch(match, i + 8));
+    .map((match, i) =>
+      createBracketMatch(match, i + 8, false, false, round32Winners[i + 8])
+    );
 
   const leftR16 = round16Matches
     .slice(0, 4)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round16Winners[i])
+    );
   const rightR16 = round16Matches
     .slice(4, 8)
-    .map((match, i) => createBracketMatch(match, i + 4));
+    .map((match, i) =>
+      createBracketMatch(match, i + 4, false, false, round16Winners[i + 4])
+    );
 
   const leftQuarters = quarterMatches
     .slice(0, 2)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, quarterWinners[i])
+    );
   const rightQuarters = quarterMatches
     .slice(2, 4)
-    .map((match, i) => createBracketMatch(match, i + 2));
+    .map((match, i) =>
+      createBracketMatch(match, i + 2, false, false, quarterWinners[i + 2])
+    );
 
   const leftSemi = semiMatches
     .slice(0, 1)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, semiWinners[i])
+    );
   const rightSemi = semiMatches
     .slice(1, 2)
-    .map((match, i) => createBracketMatch(match, i + 1));
+    .map((match, i) =>
+      createBracketMatch(match, i + 1, false, false, semiWinners[i + 1])
+    );
 
   const final = createBracketMatch(finalMatch[0], 0, false, "final");
   const thirdPlace = createBracketMatch(
@@ -1041,7 +1125,11 @@ export function renderFinalsComplete(
   finalMatch,
   thirdPlaceWinner,
   champion,
-  runnerUp
+  runnerUp,
+  round32Winners = [],
+  round16Winners = [],
+  quarterWinners = [],
+  semiWinners = []
 ) {
   const bracketView = document.getElementById("bracket-view");
   if (!bracketView) return;
@@ -1051,31 +1139,47 @@ export function renderFinalsComplete(
 
   const leftR32 = round32Matches
     .slice(0, 8)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round32Winners[i])
+    );
   const rightR32 = round32Matches
     .slice(8, 16)
-    .map((match, i) => createBracketMatch(match, i + 8));
+    .map((match, i) =>
+      createBracketMatch(match, i + 8, false, false, round32Winners[i + 8])
+    );
 
   const leftR16 = round16Matches
     .slice(0, 4)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, round16Winners[i])
+    );
   const rightR16 = round16Matches
     .slice(4, 8)
-    .map((match, i) => createBracketMatch(match, i + 4));
+    .map((match, i) =>
+      createBracketMatch(match, i + 4, false, false, round16Winners[i + 4])
+    );
 
   const leftQuarters = quarterMatches
     .slice(0, 2)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, quarterWinners[i])
+    );
   const rightQuarters = quarterMatches
     .slice(2, 4)
-    .map((match, i) => createBracketMatch(match, i + 2));
+    .map((match, i) =>
+      createBracketMatch(match, i + 2, false, false, quarterWinners[i + 2])
+    );
 
   const leftSemi = semiMatches
     .slice(0, 1)
-    .map((match, i) => createBracketMatch(match, i));
+    .map((match, i) =>
+      createBracketMatch(match, i, false, false, semiWinners[i])
+    );
   const rightSemi = semiMatches
     .slice(1, 2)
-    .map((match, i) => createBracketMatch(match, i + 1));
+    .map((match, i) =>
+      createBracketMatch(match, i + 1, false, false, semiWinners[i + 1])
+    );
 
   const final = createBracketMatch(finalMatch[0], 0, false, "final", champion);
   const thirdPlace = createBracketMatch(

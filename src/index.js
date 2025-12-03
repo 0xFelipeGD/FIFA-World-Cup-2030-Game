@@ -48,16 +48,20 @@ let qualifiedTeamsCAF = [];
 let qualifiedTeamsAFC = [];
 let qualifiedTeamsOFC = [];
 let currentGroups = [];
-let round32Matches = []; // 16 de Finais
-let round16Matches = []; // Oitavas de Final
+let round32Matches = [];
+let round32Winners = [];
+let round16Matches = [];
 let round16Teams = [];
+let round16Winners = [];
 let quarterFinalsMatches = [];
 let quarterFinalsTeams = [];
+let quarterFinalsWinners = [];
 let semiFinalsMatches = [];
 let semiFinalsTeams = [];
+let semiFinalsWinners = [];
 let finalsTeams = [];
 let thirdPlaceTeams = [];
-let thirdPlaceWinnerStored = null; // Armazenar vencedor do 3º lugar
+let thirdPlaceWinnerStored = null;
 
 // ============================================================================
 // QUALIFICATION WORKFLOW
@@ -425,7 +429,8 @@ function playRound32() {
     return simulatePlayoff(team1, team2);
   });
 
-  // Store winners for round of 16 (oitavas)
+  // Store winners globally and for round of 16 (oitavas)
+  round32Winners = winners;
   round16Teams = winners;
 
   // Create round of 16 matches (pair winners)
@@ -435,8 +440,8 @@ function playRound32() {
   }
   round16Matches = matches;
 
-  // Render round of 16
-  renderRound16(round32Matches, round16Matches);
+  // Render round of 16 with round32 winners
+  renderRound16(round32Matches, round16Matches, winners);
   setMainTitle("16 de Finais Completas - Oitavas Prontas");
 
   // Update buttons - REMOVE redraw button after playing
@@ -454,7 +459,8 @@ function playRound16() {
     return simulatePlayoff(team1, team2);
   });
 
-  // Store winners for quarter finals
+  // Store winners globally and for quarter finals
+  round16Winners = winners;
   quarterFinalsTeams = winners;
 
   // Create quarter finals matches (pair winners)
@@ -464,8 +470,14 @@ function playRound16() {
   }
   quarterFinalsMatches = matches;
 
-  // Render quarter finals
-  renderQuarterFinals(round32Matches, round16Matches, quarterFinalsMatches);
+  // Render quarter finals with previous winners
+  renderQuarterFinals(
+    round32Matches,
+    round16Matches,
+    quarterFinalsMatches,
+    round32Winners,
+    winners
+  );
   setMainTitle("Oitavas Completas - Quartas Prontas");
 
   // Update button
@@ -479,7 +491,8 @@ function playQuarters() {
     return simulatePlayoff(team1, team2);
   });
 
-  // Store winners
+  // Store winners globally and for semi finals
+  quarterFinalsWinners = winners;
   semiFinalsTeams = winners;
 
   // Create semi finals matches
@@ -489,12 +502,15 @@ function playQuarters() {
   }
   semiFinalsMatches = matches;
 
-  // Render semi finals
+  // Render semi finals with previous winners
   renderSemiFinals(
     round32Matches,
     round16Matches,
     quarterFinalsMatches,
-    semiFinalsMatches
+    semiFinalsMatches,
+    round32Winners,
+    round16Winners,
+    winners
   );
   setMainTitle("Quartas Completas - Semis Prontas");
 
@@ -515,6 +531,7 @@ function playSemiFinals() {
   });
 
   // Store for finals
+  semiFinalsWinners = winners;
   finalsTeams = winners;
   thirdPlaceTeams = losers;
 
@@ -524,7 +541,11 @@ function playSemiFinals() {
     quarterFinalsMatches,
     semiFinalsMatches,
     [thirdPlaceTeams],
-    [finalsTeams]
+    [finalsTeams],
+    round32Winners,
+    round16Winners,
+    quarterFinalsWinners,
+    winners
   );
   setMainTitle("Semi-Finais Completas - Finais Prontas");
 
@@ -556,7 +577,11 @@ function playThirdPlace() {
     semiFinalsMatches,
     [thirdPlaceTeams],
     [finalsTeams],
-    thirdPlaceWinner
+    thirdPlaceWinner,
+    round32Winners,
+    round16Winners,
+    quarterFinalsWinners,
+    semiFinalsWinners
   );
 
   setMainTitle("Terceiro Lugar Decidido - Final Pronta");
@@ -588,7 +613,11 @@ function playFinal() {
     [finalsTeams],
     thirdPlaceWinner,
     champion,
-    runnerUp
+    runnerUp,
+    round32Winners,
+    round16Winners,
+    quarterFinalsWinners,
+    semiFinalsWinners
   );
 
   // Hide ALL playoff buttons and show only reset
